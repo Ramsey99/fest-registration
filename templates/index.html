@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration</title>
+    <link rel="icon" href="\static\favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="\static\style.css">
+</head>
+
+<body>
+    <div class="main">
+        <div class="navbar">
+            <div class="menu">
+                <ul>
+                    <li><a href="see_details.html">See Details</a></li>
+                    
+
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <h1>Grand<span>Event</span> <br>Celebration</h1>
+            <form id="myform" action="/submit" method="post">
+                <div class="form">
+                    <h2>Register Here</h2>
+                    <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
+                    <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
+                    <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" required>
+                    
+                    <div class="select-box">
+                        <select id="stream" name="stream" required>
+                            <option value="">Select Stream</option>
+                            <option value="CSE">CSE</option>
+                            <option value="IT">IT</option>
+                            <option value="ECE">ECE</option>
+                            <option value="BCA">BCA</option>
+                            <option value="MCA">MCA</option>
+                        </select>
+                    </div>
+
+                    <div class="select-box">
+                        <select id="event" name="event" required>
+                            <option value="">Select an Event</option>
+                            <option value="Quiz">Quiz</option>
+                            <option value="Essay">Essay</option>
+                            <option value="Poetry">Poetry</option>
+                            <option value="Dancing">Dancing</option>
+                            <option value="Singing">Singing</option>
+                            <option value="Debate">Debate</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btnn">Submit</button>
+                </div>
+        </div>
+    </div>
+    </form>
+    </div>
+    </div>
+    <script>
+        const form = document.getElementById("myform");
+
+        const showError = (field, errorText) => {
+            field.classList.add("error");
+            const errorElement = document.createElement("small");
+            errorElement.classList.add("error-text");
+            errorElement.innerText = errorText;
+            field.closest(".form").appendChild(errorElement);
+        }
+
+        const handleFormData = (e) => {
+            e.preventDefault();
+
+            const fullnameInput = document.getElementById("fullname");
+            const emailInput = document.getElementById("email");
+            const phnoInput = document.getElementById("phno");
+            const streamInput = document.getElementById("stream");
+            const eventInput = document.getElementById("event");
+
+            const fullname = fullnameInput.value.trim();
+            const email = emailInput.value.trim();
+            const phno = phnoInput.value.trim();
+            const stream = streamInput.value;
+            const event = eventInput.value;
+
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            document.querySelectorAll(".form .error").forEach(field => field.classList.remove("error"));
+            document.querySelectorAll(".error-text").forEach(errorText => errorText.remove());
+
+            if (fullname === "") {
+                showError(fullnameInput, "Enter your full name");
+            }
+            if (!emailPattern.test(email)) {
+                showError(emailInput, "Enter a valid email address");
+            }
+            if (phno === "") {
+                showError(phnoInput, "Enter your phone number");
+            } else if (phno.length != 10) {
+                showError(phnoInput, "Phone number should be 10 digits");
+            }
+            if (stream === "") {
+                showError(streamInput, "Select your stream");
+            }
+            if (event === "") {
+                showError(eventInput, "Select an event");
+            }
+
+
+            const errorInputs = document.querySelectorAll(".form .error");
+            if (errorInputs.length > 0) return;
+
+            form.submit();
+        }
+        
+        form.addEventListener("submit", handleFormData);
+    </script>
+</body>
+</html>

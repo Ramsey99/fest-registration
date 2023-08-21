@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Success</title>
+    <style>
+        body {
+            background-color: #f7f7f7;
+            text-align: center;
+            padding: 50px;
+            font-family: Arial, sans-serif;
+        }
+
+        .popup {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+            max-width: 400px;
+            width: 80%;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #555;
+        }
+
+        h1 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        p {
+            color: #777777;
+            font-size: 18px;
+            margin-bottom: 25px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+
+    <script>
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+            window.location.href = "{{ url_for('index') }}";
+        }
+    </script>
+</head>
+
+<body>
+    <div id="popup" class="popup">
+        <h1>Registration Successful</h1>
+        <p>Thank you for registering for our event!</p>
+        <div class="btn-container">
+            <button class="btn" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+</body>
+
+</html>
