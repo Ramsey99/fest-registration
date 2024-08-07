@@ -22,6 +22,7 @@
         </tr>
     </tbody>
 </table>
+</div>
 
 ## Table of Contents
 * [Introduction](https://github.com/Ramsey99/fest-registration?tab=readme-ov-file#the-problem)
@@ -44,13 +45,14 @@
 - Email notifications for event updates
 
 ## Technologies Used
+<div align="center">
 ### 💻 **Tech Stacks**
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)
 ![HTML](https://img.shields.io/badge/HTML-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![MySQL](https://img.shields.io/badge/Mysql-FFCA28?style=for-the-badge&logo=mysql&logoColor=black)
-
+</div>
 
 ## Installation
 1. **Clone the repository:**
@@ -128,6 +130,7 @@ npm start
 7. **Open a Pull Request:**
     - Go to the GitHub page of your forked repository, and you should see an option to create a pull request. Click on it, provide a descriptive title and description for your pull request, and then submit it.
 
+<div align="center">
 ⭐️ Support the Project
 If you find this project helpful, please consider giving it a star on GitHub! Your support helps to grow the project and reach more contributors.
 
