@@ -131,6 +131,7 @@ npm start
 7. **Open a Pull Request:**
     - Go to the GitHub page of your forked repository, and you should see an option to create a pull request. Click on it, provide a descriptive title and description for your pull request, and then submit it.
 
+<hr>
 <div align="center">
 ⭐️ Support the Project
 If you find this project helpful, please consider giving it a star on GitHub! Your support helps to grow the project and reach more contributors.
