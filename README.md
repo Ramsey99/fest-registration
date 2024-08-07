@@ -1,5 +1,6 @@
 <div align="center">
-#Fest Registration
+    
+# Fest Registration
 
 <table align="center">
     <thead align="center">
