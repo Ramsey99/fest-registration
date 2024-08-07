@@ -1,6 +1,6 @@
 <div align="center">
     
-# Fest Registration
+# Fest Registration Website
 
 <table align="center">
     <thead align="center">
