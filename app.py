@@ -119,5 +119,10 @@ def success():
 def home():
     return redirect(url_for('index'))
 
+# Error handler for 404 (Not Found)
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
