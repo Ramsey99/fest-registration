@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Success</title>
     <style>
         body {
@@ -13,9 +15,9 @@
 
         .popup {
             position: fixed;
-            top: 30%;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             background-color: #ffffff;
             padding: 30px;
             border-radius: 15px;
@@ -72,13 +74,15 @@
     <script>
         function closePopup() {
             document.getElementById("popup").style.display = "none";
-            window.location.href = "{{ url_for('index') }}";
+            // Redirect to index page or change URL based on the backend route
+            window.location.href = "{{ url_for('index') }}"; // Ensure 'index' route exists in your Flask app
         }
     </script>
 </head>
 
 <body>
     <div id="popup" class="popup">
+        <span class="close-icon" onclick="closePopup()">×</span>
         <h1>Registration Successful</h1>
         <p>Thank you for registering for our event!</p>
         <div class="btn-container">
