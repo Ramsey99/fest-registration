@@ -53,10 +53,10 @@ def submit():
             # Create a cursor to execute SQL queries
             cursor = connection.cursor()
 
-            # SQL query to insert form data into the 'registrations' table
-            insert_query = "INSERT INTO registrations (roll, fullname, email, phno, stream, event) VALUES (%s, %s, %s, %s, %s, %s)"
+            # Use stored procedure to insert form data into the 'registrations' table
+            add_registration_proc = "CALL add_registration(%s, %s, %s, %s, %s, %s)"
             data = (roll, fullname, email, phno, stream, event)
-            cursor.execute(insert_query, data)
+            cursor.execute(add_registration_proc, data)
 
             # Commit the changes to the database
             connection.commit()
@@ -118,7 +118,6 @@ def success():
 @app.route('/index.html', methods=['GET'])
 def home():
     return redirect(url_for('index'))
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
