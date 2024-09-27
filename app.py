@@ -1,17 +1,18 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 import mysql.connector
 from mysql.connector import Error
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)
 
 # MySQL database configuration
 db_config = {
-    'host': 'localhost',
-    'database': 'event_database',
-    'user': 'root',
-    'password': 'anuradha'
+    'host': os.environ.get('DB_HOST', 'localhost'),  # Default to localhost for local testing
+    'database': os.environ.get('DB_NAME', 'event_database'),
+    'user': os.environ.get('DB_USER', 'root'),
+    'password': os.environ.get('DB_PASSWORD', 'anuradha')
 }
 
 # Function to establish a MySQL connection
@@ -37,45 +38,37 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # Get form data
-    roll = request.form['roll']
-    fullname = request.form['fullname']
-    email = request.form['email']
-    phno = request.form['phno']
-    stream = request.form['stream']
-    event = request.form['event']
+    try:
+        # Get form data
+        roll = request.form['roll']
+        fullname = request.form['fullname']
+        email = request.form['email']
+        phno = request.form['phno']
+        stream = request.form['stream']
+        event = request.form['event']
 
-    connection = create_connection()
-    cursor = None
+        connection = create_connection()
+        if connection is None:
+            raise Exception("Failed to connect to the database")
 
-    if connection:
-        try:
-            # Create a cursor to execute SQL queries
-            cursor = connection.cursor()
+        cursor = connection.cursor()
+        add_registration_proc = "CALL add_registration(%s, %s, %s, %s, %s, %s)"
+        data = (roll, fullname, email, phno, stream, event)
+        cursor.execute(add_registration_proc, data)
+        connection.commit()
+        
+        return redirect(url_for('success'))
+    
+    except Error as e:
+        print(f"Database error: {e}")
+        return jsonify({"error": "Database error occurred."}), 500
 
-            # Use stored procedure to insert form data into the 'registrations' table
-            add_registration_proc = "CALL add_registration(%s, %s, %s, %s, %s, %s)"
-            data = (roll, fullname, email, phno, stream, event)
-            cursor.execute(add_registration_proc, data)
+    except Exception as e:
+        print(f"General error: {e}")
+        return jsonify({"error": "An error occurred."}), 500
 
-            # Commit the changes to the database
-            connection.commit()
-
-            # After processing the form data, redirect to the success page.
-            return redirect(url_for('success'))
-
-        except Error as e:
-            # Log the error and display a message for debugging
-            print(f"Error occurred during form submission: {e}")
-            return "An error occurred during form submission. Please try again later."
-
-        finally:
-            # Close the cursor and connection in the finally block
-            close_connection(connection, cursor)
-
-    # If there was an error or the connection could not be established,
-    # redirect to the failure page or show an error message.
-    return "Error occurred. Please try again later."
+    finally:
+        close_connection(connection, cursor)
 
 @app.route('/see_details.html')
 def see_details():
@@ -84,31 +77,20 @@ def see_details():
 
     if connection:
         try:
-            # Create a cursor to execute SQL queries
             cursor = connection.cursor()
-
-            # SQL query to select all rows from the 'registrations' table
             select_query = "SELECT * FROM registrations"
             cursor.execute(select_query)
-
-            # Fetch all rows from the result set
             rows = cursor.fetchall()
-
-            # Render the see_details.html template and pass the 'rows' data to the template
             return render_template('see_details.html', rows=rows)
 
         except Error as e:
-            # Log the error and display a message for debugging
             print(f"Error occurred while fetching details: {e}")
-            return "An error occurred while fetching details. Please try again later."
+            return jsonify({"error": "An error occurred while fetching details."}), 500
 
         finally:
-            # Close the cursor and connection in the finally block
             close_connection(connection, cursor)
 
-    # If there was an error or the connection could not be established,
-    # redirect to the failure page or show an error message.
-    return "Error occurred. Please try again later."
+    return jsonify({"error": "Error occurred. Please try again later."}), 500
 
 # Route to serve the success.html page
 @app.route('/success')
@@ -118,11 +100,6 @@ def success():
 @app.route('/index.html', methods=['GET'])
 def home():
     return redirect(url_for('index'))
-
-# Error handler for 404 (Not Found)
-@app.errorhandler(404)
-def not_found(error):
-    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
