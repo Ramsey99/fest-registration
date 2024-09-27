@@ -15,13 +15,11 @@
             <div class="menu">
                 <ul>
                     <li><a href="see_details.html">See Details</a></li>
-                    
-
                 </ul>
             </div>
         </div>
         <div class="content">
-            <h1>Grand<span>Event</span> <br>Celebration</h1>
+            <h1>Grand <span>Event</span> <br>Celebration</h1>
             <form id="myform" action="/submit" method="post">
                 <div class="form">
                     <h2>Register Here</h2>
@@ -29,7 +27,7 @@
                     <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
                     <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
                     <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" required>
-                    
+
                     <div class="select-box">
                         <select id="stream" name="stream" required>
                             <option value="">Select Stream</option>
@@ -54,11 +52,10 @@
                     </div>
                     <button type="submit" class="btnn">Submit</button>
                 </div>
+            </form>
         </div>
     </div>
-    </form>
-    </div>
-    </div>
+
     <script>
         const form = document.getElementById("myform");
 
@@ -87,9 +84,11 @@
 
             const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
+            // Clear existing errors
             document.querySelectorAll(".form .error").forEach(field => field.classList.remove("error"));
             document.querySelectorAll(".error-text").forEach(errorText => errorText.remove());
 
+            // Validation checks
             if (fullname === "") {
                 showError(fullnameInput, "Enter your full name");
             }
@@ -108,14 +107,15 @@
                 showError(eventInput, "Select an event");
             }
 
-
+            // If no errors, submit the form
             const errorInputs = document.querySelectorAll(".form .error");
             if (errorInputs.length > 0) return;
 
             form.submit();
         }
-        
+
         form.addEventListener("submit", handleFormData);
     </script>
 </body>
+
 </html>
