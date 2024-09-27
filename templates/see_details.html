@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registered Candidates</title>
     <style>
         body {
@@ -21,14 +23,11 @@
             margin-top: 20px;
         }
 
-        table,
-        th,
-        td {
+        table, th, td {
             border: 1px solid #555;
         }
 
-        th,
-        td {
+        th, td {
             padding: 10px;
             text-align: left;
         }
@@ -47,7 +46,7 @@
 
         .navbar {
             background-color: #ffff;
-            overflow: solid;
+            overflow: hidden;
         }
 
         .navbar ul {
@@ -63,7 +62,7 @@
 
         .navbar li a {
             color: blue;
-            text-decoration: inherit;
+            text-decoration: none;
         }
 
         .navbar li a:hover {
@@ -81,6 +80,7 @@
             </ul>
         </div>
     </div>
+
     <h1>Registered Candidates</h1>
     <table>
         <tr>
@@ -91,16 +91,22 @@
             <th>Stream</th>
             <th>Event</th>
         </tr>
-        {% for row in rows %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
-            <td>{{ row[5] }}</td>
-        </tr>
-        {% endfor %}
+        {% if rows %}
+            {% for row in rows %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6">No registered candidates found.</td>
+            </tr>
+        {% endif %}
     </table>
 </body>
 
