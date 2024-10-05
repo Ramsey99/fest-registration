@@ -23,6 +23,10 @@ CREATE VIEW view_registrations AS
 SELECT roll, fullname, email, phno, stream, event, profile_pic FROM registrations;
 
 -- Create a stored procedure to add a new registration with a duplicate check and profile pic
+-- Drop the existing stored procedure if it exists
+DROP PROCEDURE IF EXISTS add_registration;
+
+-- Create the updated stored procedure with 7 parameters
 DELIMITER //
 CREATE PROCEDURE add_registration(
     IN p_roll VARCHAR(20),
@@ -48,6 +52,7 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
 
 -- Create a stored procedure to delete a registration by roll number
 DELIMITER //
