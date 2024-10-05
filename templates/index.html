@@ -7,6 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
     <style>
         * {
             margin: 0;
@@ -32,6 +36,15 @@
             width: 100%;
             max-width: 800px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+ /* Additional styling for the navbar header */
+ header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
         }
 
         .navbar {
@@ -63,18 +76,25 @@
             color: #fff;
             text-align: center;
             margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         h1 span {
             color: #ffd700;
         }
 
+
         .form-step {
             display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
         }
 
         .form-step.active {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .form-group {
@@ -85,16 +105,23 @@
             display: block;
             margin-bottom: 5px;
             color: #fff;
+            font-weight: 500;
         }
 
         input, select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: none;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 5px;
             color: #fff;
             font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.5);
         }
 
         input::placeholder {
@@ -105,16 +132,19 @@
             background: #ffd700;
             color: #333;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .btnn:hover {
             background: #ffec3c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
         }
 
         .form-navigation {
@@ -127,6 +157,19 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 30px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 4px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            z-index: 0;
         }
 
         .progress-step {
@@ -139,6 +182,9 @@
             align-items: center;
             color: #fff;
             font-weight: 600;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
         }
 
         .progress-step.active {
@@ -149,10 +195,30 @@
         #event-info {
             color: #fff;
             margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
         }
     </style>
 </head>
 <body>
+
+    
+
+    
+
+
     <div class="container">
         <div class="navbar">
             <ul>
@@ -193,7 +259,7 @@
                 </div>
                 <div class="form-group">
                     <label for="phno">Phone Number</label>
-                    <input type="text" id="phno" name="phno" placeholder="Enter Your Phone Number" required>
+                    <input type="tel" id="phno" name="phno" placeholder="Enter Your Phone Number" required>
                 </div>
                 <div class="form-group">
                     <label for="coupon">Have a discount coupon?</label>
@@ -234,7 +300,7 @@
                 </div>
                 <div class="form-navigation">
                     <button type="button" class="btnn prev-step">Previous</button>
-                    <button type="submit" class="btnn">Submit</button>
+                    <button type="submit" class="btnn pulse">Submit</button>
                 </div>
             </div>
         </form>
@@ -247,6 +313,7 @@
         const prevBtns = document.querySelectorAll(".prev-step");
         const eventSelect = document.getElementById('event');
         const eventInfo = document.getElementById('event-info');
+        const form = document.getElementById('myform');
 
         let currentStep = 0;
 
@@ -264,9 +331,11 @@
 
         nextBtns.forEach(btn => {
             btn.addEventListener("click", () => {
-                currentStep++;
-                updateSteps();
-                gsap.from(steps[currentStep], {opacity: 0, y: 20, duration: 0.5});
+                if (validateStep(currentStep)) {
+                    currentStep++;
+                    updateSteps();
+                    gsap.from(steps[currentStep], {opacity: 0, y: 20, duration: 0.5});
+                }
             });
         });
 
@@ -304,6 +373,49 @@
             }
 
             eventInfo.textContent = eventDetails;
+            gsap.from(eventInfo, {opacity: 0, y: 10, duration: 0.3});
+        });
+
+        function validateStep(step) {
+            const currentStepElement = steps[step];
+            const inputs = currentStepElement.querySelectorAll('input, select');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (input.required && !input.value) {
+                    isValid = false;
+                    input.style.border = '2px solid red';
+                } else {
+                    input.style.border = 'none';
+                }
+            });
+
+            if (!isValid) {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'Please fill in all required fields.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+
+            return isValid;
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateStep(currentStep)) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Your registration has been submitted.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            }
         });
 
         updateSteps();
