@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,60 +53,86 @@
             margin: 0;
             padding: 0;
             display: flex;
+            justify-content: center;
         }
 
-        .navbar li {
-            padding: 14px 16px;
+        .navbar ul li {
+            float: left;
+            margin-right: 20px;
         }
 
-        .navbar li a {
-            color: blue;
+        .navbar ul li a {
             text-decoration: none;
+            padding: 14px 16px;
+            display: block;
+            color: #555;
         }
 
-        .navbar li a:hover {
-            background-color: #ddd;
-            color: black;
+        .navbar ul li a:hover {
+            color: #00a651;
+        }
+
+        .filter-bar {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .filter-bar input, .filter-bar select {
+            padding: 10px;
+            margin-right: 10px;
+            font-size: 16px;
         }
     </style>
 </head>
-
 <body>
     <div class="navbar">
-        <div class="menu">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+        </ul>
     </div>
 
     <h1>Registered Candidates</h1>
+
+    <div class="filter-bar">
+        <form action="/see_details.html" method="get">
+            <input type="text" name="search" placeholder="Search by Name">
+            <select name="event">
+                <option value="">All Events</option>
+                <option value="Quiz">Quiz</option>
+                <option value="Essay">Essay</option>
+                <option value="Poetry">Poetry</option>
+                <option value="Dancing">Dancing</option>
+                <option value="Singing">Singing</option>
+                <option value="Debate">Debate</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+
     <table>
-        <tr>
-            <th>Roll No</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Stream</th>
-            <th>Event</th>
-        </tr>
-        {% if rows %}
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Stream</th>
+                <th>Event</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for row in rows %}
-            <tr>
-                <td>{{ row[0] }}</td>
-                <td>{{ row[1] }}</td>
-                <td>{{ row[2] }}</td>
-                <td>{{ row[3] }}</td>
-                <td>{{ row[4] }}</td>
-                <td>{{ row[5] }}</td>
-            </tr>
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[6] }}</td>
+                </tr>
             {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="6">No registered candidates found.</td>
-            </tr>
-        {% endif %}
+        </tbody>
     </table>
 </body>
-
 </html>
