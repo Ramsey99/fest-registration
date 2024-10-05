@@ -53,7 +53,6 @@ def submit():
         phno = request.form['phno']
         stream = request.form['stream']
         event = request.form['event']
-        
         # Fetch file input correctly
         profile_pic = request.files['profile']
         
