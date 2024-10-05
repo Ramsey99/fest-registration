@@ -12,82 +12,115 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background-color: #333;
-            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 10px;
+            padding: 20px;
         }
 
         .container {
-            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
             width: 100%;
-            padding: 20px;
-            background-color: #444;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+
+        .navbar ul {
+            list-style: none;
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar ul li a:hover {
+            background: rgba(255, 255, 255, 0.4);
         }
 
         h1 {
+            font-size: 2.5rem;
+            color: #fff;
             text-align: center;
-            margin-bottom: 20px;
-            font-weight: 600;
+            margin-bottom: 30px;
         }
 
         h1 span {
-            color: #F15A24;
+            color: #ffd700;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 400;
+            margin-bottom: 5px;
+            color: #fff;
         }
 
-        .form-group input,
-        .form-group select {
+        input, select {
             width: 100%;
             padding: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #fff;
             font-size: 16px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btnn {
+            background: #ffd700;
+            color: #333;
             border: none;
+            padding: 10px 20px;
             border-radius: 5px;
-            background-color: #666;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .form-group input::placeholder {
-            color: #aaa;
-        }
-
-        .form-group select {
-            appearance: none;
-        }
-
-        button.btnn {
-            width: 100%;
-            padding: 12px;
-            background-color: #F15A24;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        button.btnn:hover {
-            background-color: #e14918;
+        .btnn:hover {
+            background: #ffec3c;
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
         }
 
         .progress-bar {
@@ -99,56 +132,23 @@
         .progress-step {
             width: 30px;
             height: 30px;
-            background-color: #888;
-            color: #fff;
             border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            color: #fff;
             font-weight: 600;
-            transition: background-color 0.3s;
         }
 
         .progress-step.active {
-            background-color: #F15A24;
-        }
-
-        .form-navigation {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .form-step {
-            display: none;
-        }
-
-        .form-step.active {
-            display: block;
+            background: #ffd700;
+            color: #333;
         }
 
         #event-info {
             color: #fff;
             margin-top: 10px;
-        }
-
-        .navbar {
-            margin-bottom: 20px;
-        }
-
-        .navbar ul {
-            list-style-type: none;
-            text-align: right;
-        }
-
-        .navbar ul li {
-            display: inline;
-            margin-left: 20px;
-        }
-
-        .navbar ul li a {
-            text-decoration: none;
-            color: #F15A24;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -179,9 +179,7 @@
                 </div>
                 <div class="form-group">
                     <label for="profile">Upload Profile Picture</label>
-                    
                     <input type="file" id="profile" name="profile" accept="image/*" required>
-
                 </div>
                 <button type="button" class="btnn next-step">Next</button>
             </div>
@@ -309,6 +307,10 @@
         });
 
         updateSteps();
+
+        gsap.from(".container", {opacity: 0, y: 50, duration: 1, ease: "power3.out"});
+        gsap.from("h1", {opacity: 0, y: 30, duration: 1, delay: 0.5, ease: "power3.out"});
+        gsap.from(".progress-bar", {opacity: 0, scale: 0.8, duration: 1, delay: 0.7, ease: "back.out(1.7)"});
     </script>
 </body>
 </html>
