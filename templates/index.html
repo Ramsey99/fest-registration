@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     <div class="main">
         <div class="navbar">
@@ -16,46 +19,18 @@
             </div>
         </div>
         <div class="content">
-            <h1>Grand <span>Event</span> Celebration</h1>
+            <h1>Grand <span>Event</span> <br>Celebration</h1>
             <form id="myform" action="/submit" method="post">
-                <!-- Step 1: Basic Details -->
-                <div class="form-step step-1">
-                    <h2>Step 1: Basic Details</h2>
-                    <div class="form-group">
-                        <label for="roll">Class Roll Number</label>
-                        <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="fullname">Full Name</label>
-                        <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
-                    </div>
-                    <button type="button" class="btnn next-step">Next</button>
-                </div>
+                <div class="form">
+                    <h2>Register Here</h2>
+                    <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
+                    <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
+                    <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" required>
 
-                <!-- Step 2: Contact Information -->
-                <div class="form-step step-2" style="display:none;">
-                    <h2>Step 2: Contact Information</h2>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="Enter Your Email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phno">Phone Number</label>
-                        <input type="text" id="phno" name="phno" placeholder="Enter Your Phone Number" required>
-                    </div>
-                    <div class="form-navigation">
-                        <button type="button" class="btnn prev-step">Previous</button>
-                        <button type="button" class="btnn next-step">Next</button>
-                    </div>
-                </div>
-
-                <!-- Step 3: Event Details -->
-                <div class="form-step step-3" style="display:none;">
-                    <h2>Step 3: Event Selection</h2>
-                    <div class="form-group">
-                        <label for="stream">Select Stream</label>
+                    <div class="select-box">
                         <select id="stream" name="stream" required>
-                            <option value="">Select Your Stream</option>
+                            <option value="">Select Stream</option>
                             <option value="CSE">CSE</option>
                             <option value="IT">IT</option>
                             <option value="ECE">ECE</option>
@@ -63,8 +38,8 @@
                             <option value="MCA">MCA</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="event">Select Event</label>
+
+                    <div class="select-box">
                         <select id="event" name="event" required>
                             <option value="">Select an Event</option>
                             <option value="Quiz">Quiz</option>
@@ -75,38 +50,72 @@
                             <option value="Debate">Debate</option>
                         </select>
                     </div>
-                    <div class="form-navigation">
-                        <button type="button" class="btnn prev-step">Previous</button>
-                        <button type="submit" class="btnn">Submit</button>
-                    </div>
+                    <button type="submit" class="btnn">Submit</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        // Get all form steps
-        const steps = Array.from(document.querySelectorAll(".form-step"));
-        const nextBtns = document.querySelectorAll(".next-step");
-        const prevBtns = document.querySelectorAll(".prev-step");
+        const form = document.getElementById("myform");
 
-        nextBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                changeStep(1);
-            });
-        });
-
-        prevBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                changeStep(-1);
-            });
-        });
-
-        function changeStep(step) {
-            let index = steps.findIndex(step => step.style.display !== "none");
-            steps[index].style.display = "none";
-            steps[index + step].style.display = "block";
+        const showError = (field, errorText) => {
+            field.classList.add("error");
+            const errorElement = document.createElement("small");
+            errorElement.classList.add("error-text");
+            errorElement.innerText = errorText;
+            field.closest(".form").appendChild(errorElement);
         }
+
+        const handleFormData = (e) => {
+            e.preventDefault();
+
+            const fullnameInput = document.getElementById("fullname");
+            const emailInput = document.getElementById("email");
+            const phnoInput = document.getElementById("phno");
+            const streamInput = document.getElementById("stream");
+            const eventInput = document.getElementById("event");
+
+            const fullname = fullnameInput.value.trim();
+            const email = emailInput.value.trim();
+            const phno = phnoInput.value.trim();
+            const stream = streamInput.value;
+            const event = eventInput.value;
+
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            // Clear existing errors
+            document.querySelectorAll(".form .error").forEach(field => field.classList.remove("error"));
+            document.querySelectorAll(".error-text").forEach(errorText => errorText.remove());
+
+            // Validation checks
+            if (fullname === "") {
+                showError(fullnameInput, "Enter your full name");
+            }
+            if (!emailPattern.test(email)) {
+                showError(emailInput, "Enter a valid email address");
+            }
+            if (phno === "") {
+                showError(phnoInput, "Enter your phone number");
+            } else if (phno.length != 10) {
+                showError(phnoInput, "Phone number should be 10 digits");
+            }
+            if (stream === "") {
+                showError(streamInput, "Select your stream");
+            }
+            if (event === "") {
+                showError(eventInput, "Select an event");
+            }
+
+            // If no errors, submit the form
+            const errorInputs = document.querySelectorAll(".form .error");
+            if (errorInputs.length > 0) return;
+
+            form.submit();
+        }
+
+        form.addEventListener("submit", handleFormData);
     </script>
 </body>
+
 </html>
