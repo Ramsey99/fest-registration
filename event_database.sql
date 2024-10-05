@@ -1,85 +1,18 @@
--- -- Create the database
--- CREATE DATABASE IF NOT EXISTS event_database;
--- USE event_database;
-
--- -- Create the registrations table
--- CREATE TABLE IF NOT EXISTS registrations (
---     roll VARCHAR(20) PRIMARY KEY,
---     fullname VARCHAR(50) NOT NULL,
---     email VARCHAR(50) NOT NULL,
---     phno VARCHAR(15) NOT NULL,
---     stream VARCHAR(10) NOT NULL,
---     event VARCHAR(20) NOT NULL
--- );
-
--- -- Create an index on the email column for faster searches
--- CREATE INDEX idx_email ON registrations(email);
-
--- -- Create a view to list all registrations
--- CREATE VIEW view_registrations AS
--- SELECT roll, fullname, email, phno, stream, event FROM registrations;
-
--- -- Create a stored procedure to add a new registration
--- DELIMITER //
--- CREATE PROCEDURE add_registration(
---     IN p_roll VARCHAR(20),
---     IN p_fullname VARCHAR(50),
---     IN p_email VARCHAR(50),
---     IN p_phno VARCHAR(15),
---     IN p_stream VARCHAR(10),
---     IN p_event VARCHAR(20)
--- )
--- BEGIN
---     INSERT INTO registrations (roll, fullname, email, phno, stream, event)
---     VALUES (p_roll, p_fullname, p_email, p_phno, p_stream, p_event);
--- END //
--- DELIMITER ;
-
--- -- Create a stored procedure to delete a registration by roll number
--- DELIMITER //
--- CREATE PROCEDURE delete_registration(
---     IN p_roll VARCHAR(20)
--- )
--- BEGIN
---     DELETE FROM registrations WHERE roll = p_roll;
--- END //
--- DELIMITER ;
-
--- -- Show databases
--- SHOW DATABASES;
-
--- -- Show all tables in the current database
--- SHOW TABLES;
-
--- -- Describe the structure of the registrations table
--- DESCRIBE registrations;
-
--- -- Select all records from the registrations table
--- SELECT * FROM registrations;
-
--- -- Use the stored procedure to delete a registration
--- CALL delete_registration('1');
-
--- -- Drop the database (Uncomment the following line if you want to drop the database)
--- -- DROP DATABASE event_database;
-
-
-
-
-
-
--- Create the database
+-- Create the database if it doesn't exist
 CREATE DATABASE IF NOT EXISTS event_database;
+
+-- Use the created database
 USE event_database;
 
--- Create the registrations table
+-- Create the registrations table with an additional column for profile picture
 CREATE TABLE IF NOT EXISTS registrations (
     roll VARCHAR(20) PRIMARY KEY,
     fullname VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     phno VARCHAR(15) NOT NULL,
     stream VARCHAR(10) NOT NULL,
-    event VARCHAR(20) NOT NULL
+    event VARCHAR(20) NOT NULL,
+    profile_pic VARCHAR(255) DEFAULT NULL  -- New column for profile picture
 );
 
 -- Create an index on the email column for faster searches
@@ -87,9 +20,9 @@ CREATE INDEX idx_email ON registrations(email);
 
 -- Create a view to list all registrations
 CREATE VIEW view_registrations AS
-SELECT roll, fullname, email, phno, stream, event FROM registrations;
+SELECT roll, fullname, email, phno, stream, event, profile_pic FROM registrations;
 
--- Create a stored procedure to add a new registration with a duplicate check
+-- Create a stored procedure to add a new registration with a duplicate check and profile pic
 DELIMITER //
 CREATE PROCEDURE add_registration(
     IN p_roll VARCHAR(20),
@@ -97,7 +30,8 @@ CREATE PROCEDURE add_registration(
     IN p_email VARCHAR(50),
     IN p_phno VARCHAR(15),
     IN p_stream VARCHAR(10),
-    IN p_event VARCHAR(20)
+    IN p_event VARCHAR(20),
+    IN p_profile_pic VARCHAR(255)  -- Include profile pic as a parameter
 )
 BEGIN
     DECLARE existing_roll INT;
@@ -107,8 +41,8 @@ BEGIN
 
     IF existing_roll = 0 THEN
         -- If roll does not exist, insert the new registration
-        INSERT INTO registrations (roll, fullname, email, phno, stream, event)
-        VALUES (p_roll, p_fullname, p_email, p_phno, p_stream, p_event);
+        INSERT INTO registrations (roll, fullname, email, phno, stream, event, profile_pic)
+        VALUES (p_roll, p_fullname, p_email, p_phno, p_stream, p_event, p_profile_pic);
     ELSE
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate entry for roll';
     END IF;
@@ -125,11 +59,8 @@ BEGIN
 END //
 DELIMITER ;
 
--- Test cases
+-- Test cases (optional)
 SHOW DATABASES;
 SHOW TABLES;
 DESCRIBE registrations;
 SELECT * FROM registrations;
-
--- Uncomment the following line if you want to drop the database
--- DROP DATABASE event_database;
