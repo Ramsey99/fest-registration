@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registered Candidates</title>
-    <link rel="stylesheet" href="\static\see_details_style.css">
+    <link rel="StyleSheet" href="/static/see_details_style.css">
 </head>
 
 <body>
@@ -28,20 +28,20 @@
             <th>Event</th>
         </tr>
         {% if rows %}
-            {% for row in rows %}
-            <tr>
-                <td>{{ row[0] }}</td>
-                <td>{{ row[1] }}</td>
-                <td>{{ row[2] }}</td>
-                <td>{{ row[3] }}</td>
-                <td>{{ row[4] }}</td>
-                <td>{{ row[5] }}</td>
-            </tr>
-            {% endfor %}
+        {% for row in rows %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+        </tr>
+        {% endfor %}
         {% else %}
-            <tr>
-                <td colspan="6">No registered candidates found.</td>
-            </tr>
+        <tr>
+            <td colspan="6">No registered candidates found.</td>
+        </tr>
         {% endif %}
     </table>
 </body>
