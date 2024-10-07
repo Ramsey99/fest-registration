@@ -18,12 +18,13 @@ body{
 .navbar {
     width: 1200px;
     height: 75px;
-    margin: auto;
+    
 }
 
 .menu {
     width: 400px;
-    float: left;
+    /* float: left; */
+    position: fixed;
     height: 70px;
 }
 
@@ -51,19 +52,21 @@ ul li a {
 
 ul li a:hover {
     color: #ff7200;
+    text-decoration: underline;
 }
 
 .content {
     width: 1200px;
     height: auto;
     margin: auto;
+
     color: #fff;
     position: relative;
 }
 
 .content h1 {
     font-family: 'Times New Roman';
-    font-size: 65px;
+    font-size: 5rem;
     padding-right: 60px;
     margin-top: 10%;
     letter-spacing: 3px;
@@ -75,7 +78,7 @@ ul li a:hover {
 
 .content span {
     color: #ff7200;
-    font-size: 65px
+    font-size:5rem
 }
 
 .form {
@@ -172,4 +175,70 @@ select option {
     text-decoration: none;
     color: #000;
     font-weight: bold;
+}
+@media (min-width:400px) and (max-width:960px){
+    .form {
+    
+        position: absolute;
+        top:300px ;
+        left:0;
+       
+    }
+    .content h1{
+        font-size: 5rem;
+    }
+    .content span{
+        font-size: 5rem;
+    }
+ .main{
+    margin-left: 200px;
+ }
+
+}
+@media (max-width:700px){
+    .main{
+        margin-left:30px;
+    }
+    
+    .form {
+    
+        position: absolute;
+        top:200px ;
+        left: 0;
+        width:71vw
+       
+    }
+    a{
+        font-size: 2rem;
+    }
+    .content{
+        margin-top: 100px;
+    }
+    .content span{
+        font-size: 3rem;
+    }
+    .content h1{
+        font-size: 3rem;
+    }
+    .form input {
+        width:70vw;
+       
+    }
+    .form h2{
+width:65vw
+    }
+    .btnn{
+        width: 70vw;
+    }
+   
+    html,body{
+        overflow:auto;
+    }
+    #stream{
+        width: 65vw;
+    }
+    #event{
+        width: 65vw;
+    }
+
 }
