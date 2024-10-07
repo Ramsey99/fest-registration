@@ -1,428 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 800px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-
- /* Additional styling for the navbar header */
- header {
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-        }
-
-        .navbar ul {
-            list-style: none;
-        }
-
-        .navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .navbar ul li a:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        h1 span {
-            color: #ffd700;
-        }
-
-
-        .form-step {
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.3s, transform 0.3s;
-        }
-
-        .form-step.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #fff;
-            font-weight: 500;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            color: #fff;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.5);
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .btnn {
-            background: #ffd700;
-            color: #333;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .btnn:hover {
-            background: #ffec3c;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
-        }
-
-        .form-navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .progress-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .progress-bar::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            height: 4px;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.2);
-            z-index: 0;
-        }
-
-        .progress-step {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-            transition: all 0.3s ease;
-        }
-
-        .progress-step.active {
-            background: #ffd700;
-            color: #333;
-        }
-
-        #event-info {
-            color: #fff;
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            font-style: italic;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-    </style>
+    <link rel="icon" href="\static\favicon.ico" type="image/x-icon">
+    <link rel="StyleSheet" href="/static/style.css">
 </head>
+
 <body>
-
-    
-
-    
-
-
-    <div class="container">
+    <div class="main">
         <div class="navbar">
-            <ul>
-                <li><a href="see_details.html">See Details</a></li>
-            </ul>
+            <div class="menu">
+                <ul>
+                    <li><a href="see_details.html">See Details</a></li>
+                </ul>
+            </div>
         </div>
-        <h1>Grand <span>Event</span> Celebration</h1>
-        <div class="progress-bar">
-            <div class="progress-step active">1</div>
-            <div class="progress-step">2</div>
-            <div class="progress-step">3</div>
-        </div>
-        <form id="myform" action="/submit" method="post" enctype="multipart/form-data">
-            <!-- Step 1 -->
-            <div class="form-step step-1 active">
-                <h2>Step 1: Basic Details</h2>
-                <div class="form-group">
-                    <label for="roll">Class Roll Number</label>
+
+        <div class="content">
+            <h1>Grand <span>Event</span> <br>Celebration</h1>
+            <form id="myform" action="/submit" method="post" enctype="multipart/form-data">
+            
+                <div class="form">
+                    <h2>Register Here</h2>
                     <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
-                </div>
-                <div class="form-group">
-                    <label for="fullname">Full Name</label>
                     <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
-                </div>
-                <div class="form-group">
-                    <label for="profile">Upload Profile Picture</label>
-                    <input type="file" id="profile" name="profile" accept="image/*" required>
-                </div>
-                <button type="button" class="btnn next-step">Next</button>
-            </div>
+                    <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
+                    <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" required>
 
-            <!-- Step 2 -->
-            <div class="form-step step-2">
-                <h2>Step 2: Contact Information</h2>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="Enter Your Email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phno">Phone Number</label>
-                    <input type="tel" id="phno" name="phno" placeholder="Enter Your Phone Number" required>
-                </div>
-                <div class="form-group">
-                    <label for="coupon">Have a discount coupon?</label>
-                    <input type="text" id="coupon" name="coupon" placeholder="Enter your coupon code">
-                </div>
-                <div class="form-navigation">
-                    <button type="button" class="btnn prev-step">Previous</button>
-                    <button type="button" class="btnn next-step">Next</button>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="profile">Upload Profile Picture</label>
+                        <input type="file" id="profile" name="profile" accept="image/*" required>
+                    </div>
 
-            <!-- Step 3 -->
-            <div class="form-step step-3">
-                <h2>Step 3: Event Selection</h2>
-                <div class="form-group">
-                    <label for="stream">Select Stream</label>
-                    <select id="stream" name="stream" required>
-                        <option value="">Select Your Stream</option>
-                        <option value="CSE">CSE</option>
-                        <option value="IT">IT</option>
-                        <option value="ECE">ECE</option>
-                        <option value="BCA">BCA</option>
-                        <option value="MCA">MCA</option>
-                    </select>
+                    <div class="select-box">
+                        <select id="stream" name="stream" required>
+                            <option value="">Select Stream</option>
+                            <option value="CSE">CSE</option>
+                            <option value="IT">IT</option>
+                            <option value="ECE">ECE</option>
+                            <option value="BCA">BCA</option>
+                            <option value="MCA">MCA</option>
+                        </select>
+                    </div>
+
+                    <div class="select-box">
+                        <select id="event" name="event" required>
+                            <option value="">Select an Event</option>
+                            <option value="Quiz">Quiz</option>
+                            <option value="Essay">Essay</option>
+                            <option value="Poetry">Poetry</option>
+                            <option value="Dancing">Dancing</option>
+                            <option value="Singing">Singing</option>
+                            <option value="Debate">Debate</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btnn">Submit</button>
                 </div>
-                <div class="form-group">
-                    <label for="event">Select Event</label>
-                    <select id="event" name="event" required>
-                        <option value="">Select an Event</option>
-                        <option value="Quiz">Quiz</option>
-                        <option value="Essay">Essay</option>
-                        <option value="Poetry">Poetry</option>
-                        <option value="Dancing">Dancing</option>
-                        <option value="Singing">Singing</option>
-                        <option value="Debate">Debate</option>
-                    </select>
-                    <p id="event-info"></p>
-                </div>
-                <div class="form-navigation">
-                    <button type="button" class="btnn prev-step">Previous</button>
-                    <button type="submit" class="btnn pulse">Submit</button>
-                </div>
-            </div>
-        </form>
+                
+            </form>
+        </div>
+   
     </div>
 
     <script>
-        const steps = Array.from(document.querySelectorAll(".form-step"));
-        const progressSteps = Array.from(document.querySelectorAll(".progress-step"));
-        const nextBtns = document.querySelectorAll(".next-step");
-        const prevBtns = document.querySelectorAll(".prev-step");
-        const eventSelect = document.getElementById('event');
-        const eventInfo = document.getElementById('event-info');
-        const form = document.getElementById('myform');
+        const form = document.getElementById("myform");
 
-        let currentStep = 0;
-
-        function updateSteps() {
-            steps.forEach((step, index) => {
-                if (index === currentStep) {
-                    step.classList.add("active");
-                    progressSteps[index].classList.add("active");
-                } else {
-                    step.classList.remove("active");
-                    progressSteps[index].classList.remove("active");
-                }
-            });
+        const showError = (field, errorText) => {
+            field.classList.add("error");
+            const errorElement = document.createElement("small");
+            errorElement.classList.add("error-text");
+            errorElement.innerText = errorText;
+            field.closest(".form").appendChild(errorElement);
         }
 
-        nextBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                if (validateStep(currentStep)) {
-                    currentStep++;
-                    updateSteps();
-                    gsap.from(steps[currentStep], {opacity: 0, y: 20, duration: 0.5});
-                }
-            });
-        });
-
-        prevBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                currentStep--;
-                updateSteps();
-                gsap.from(steps[currentStep], {opacity: 0, y: 20, duration: 0.5});
-            });
-        });
-
-        eventSelect.addEventListener('change', function() {
-            const selectedEvent = eventSelect.value;
-            let eventDetails = '';
-
-            switch (selectedEvent) {
-                case 'Quiz':
-                    eventDetails = 'Join us for a quiz full of fun and knowledge!';
-                    break;
-                case 'Essay':
-                    eventDetails = 'Show your writing skills in our essay competition!';
-                    break;
-                case 'Poetry':
-                    eventDetails = 'Express your creativity in our poetry competition!';
-                    break;
-                case 'Dancing':
-                    eventDetails = 'Bring out the dancer in you for our dance event!';
-                    break;
-                case 'Singing':
-                    eventDetails = 'Unleash your singing talent in this event!';
-                    break;
-                case 'Debate':
-                    eventDetails = 'Let your opinions be heard in our debate competition!';
-                    break;
-            }
-
-            eventInfo.textContent = eventDetails;
-            gsap.from(eventInfo, {opacity: 0, y: 10, duration: 0.3});
-        });
-
-        function validateStep(step) {
-            const currentStepElement = steps[step];
-            const inputs = currentStepElement.querySelectorAll('input, select');
-            let isValid = true;
-
-            inputs.forEach(input => {
-                if (input.required && !input.value) {
-                    isValid = false;
-                    input.style.border = '2px solid red';
-                } else {
-                    input.style.border = 'none';
-                }
-            });
-
-            if (!isValid) {
-                Swal.fire({
-                    title: 'Oops!',
-                    text: 'Please fill in all required fields.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-
-            return isValid;
-        }
-
-        form.addEventListener('submit', function(e) {
+        const handleFormData = (e) => {
             e.preventDefault();
-            if (validateStep(currentStep)) {
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Your registration has been submitted.',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
+
+            const fullnameInput = document.getElementById("fullname");
+            const emailInput = document.getElementById("email");
+            const phnoInput = document.getElementById("phno");
+            const streamInput = document.getElementById("stream");
+            const eventInput = document.getElementById("event");
+
+            const fullname = fullnameInput.value.trim();
+            const email = emailInput.value.trim();
+            const phno = phnoInput.value.trim();
+            const stream = streamInput.value;
+            const event = eventInput.value;
+
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            // Clear existing errors
+            document.querySelectorAll(".form .error").forEach(field => field.classList.remove("error"));
+            document.querySelectorAll(".error-text").forEach(errorText => errorText.remove());
+
+            // Validation checks
+            if (fullname === "") {
+                showError(fullnameInput, "Enter your full name");
             }
-        });
+            if (!emailPattern.test(email)) {
+                showError(emailInput, "Enter a valid email address");
+            }
+            if (phno === "") {
+                showError(phnoInput, "Enter your phone number");
+            } else if (phno.length != 10) {
+                showError(phnoInput, "Phone number should be 10 digits");
+            }
+            if (stream === "") {
+                showError(streamInput, "Select your stream");
+            }
+            if (event === "") {
+                showError(eventInput, "Select an event");
+            }
 
-        updateSteps();
+            // If no errors, submit the form
+            const errorInputs = document.querySelectorAll(".form .error");
+            if (errorInputs.length > 0) return;
 
-        gsap.from(".container", {opacity: 0, y: 50, duration: 1, ease: "power3.out"});
-        gsap.from("h1", {opacity: 0, y: 30, duration: 1, delay: 0.5, ease: "power3.out"});
-        gsap.from(".progress-bar", {opacity: 0, scale: 0.8, duration: 1, delay: 0.7, ease: "back.out(1.7)"});
+            form.submit();
+        }
+
+        form.addEventListener("submit", handleFormData);
     </script>
 </body>
+
 </html>

@@ -4,212 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registered Candidates</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
             padding: 20px;
         }
-
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
+        .navbar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .navbar a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: #45a049;
+        }
+        h1 {
+            text-align: center;
+        }
+        .candidates-list {
             max-width: 1200px;
             margin: 0 auto;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-
-        h1 {
-            color: #fff;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-        }
-
-        .navbar {
-            margin-bottom: 30px;
-        }
-
-        .navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: center;
-        }
-
-        .navbar ul li {
-            margin: 0 10px;
-        }
-
-        .navbar ul li a {
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .navbar ul li a:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        .filter-bar {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .filter-bar input,
-        .filter-bar select,
-        .filter-bar button {
-            padding: 10px;
-            margin-right: 10px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-        }
-
-        .filter-bar button {
-            background: #ffd700;
-            color: #333;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .filter-bar button:hover {
-            background: #ffec3c;
-        }
-
-        .candidates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .candidate-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .candidate-card:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
-        }
-
-        .profile-pic {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-
-        .candidate-info {
-            color: #fff;
+            border-collapse: collapse;
             width: 100%;
         }
-
-        .candidate-info p {
-            margin: 5px 0;
-            font-size: 0.9em;
+        .candidate {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        .candidate-info {
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .candidate-info > div {
+            flex-basis: 16%;
+            padding: 0 5px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
-        .candidate-info strong {
-            font-weight: 600;
-        }
-
         @media (max-width: 768px) {
-            .filter-bar {
+            .candidate, .candidate-info {
                 flex-direction: column;
+                align-items: flex-start;
             }
-
-            .filter-bar input,
-            .filter-bar select,
-            .filter-bar button {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-
-            .candidates-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            .candidate-info > div {
+                flex-basis: 100%;
+                margin-bottom: 5px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="navbar">
-            <ul>
-                <li><a href="/">Home</a></li>
-            </ul>
-        </div>
-
-        <h1>Registered Candidates</h1>
-
-        <div class="filter-bar">
-            <form action="/see_details.html" method="get">
-                <input type="text" name="search" placeholder="Search by Name">
-                <select name="event">
-                    <option value="">All Events</option>
-                    <option value="Quiz">Quiz</option>
-                    <option value="Essay">Essay</option>
-                    <option value="Poetry">Poetry</option>
-                    <option value="Dancing">Dancing</option>
-                    <option value="Singing">Singing</option>
-                    <option value="Debate">Debate</option>
-                </select>
-                <button type="submit">Filter</button>
-            </form>
-        </div>
-
-        <div class="candidates-grid">
-            {% for row in rows %}
-                <div class="candidate-card">
-                    <img src="{{ url_for('static', filename='uploads/' + row[6]) }}" alt="Profile Picture" class="profile-pic">
-                    <div class="candidate-info">
-                        <p><strong>Roll:</strong> {{ row[1] }}</p>
-                        <p><strong>Name:</strong> {{ row[2] }}</p>
-                        <p><strong>Email:</strong> {{ row[3] }}</p>
-                        <p><strong>Phone:</strong> {{ row[4] }}</p>
-                        <p><strong>Stream:</strong> {{ row[5] }}</p>
-                        <p><strong>Event:</strong> {{ row[6] }}</p>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+    <div class="navbar">
+        <a href="/">Home</a>
     </div>
 
-    <script>
-        gsap.from(".container", {opacity: 0, y: 50, duration: 1, ease: "power3.out"});
-        gsap.from("h1", {opacity: 0, y: 30, duration: 1, delay: 0.5, ease: "power3.out"});
-        gsap.from(".filter-bar", {opacity: 0, y: 20, duration: 1, delay: 0.7, ease: "power3.out"});
-        gsap.from(".candidates-grid", {opacity: 0, y: 20, duration: 1, delay: 0.9, ease: "power3.out"});
-    </script>
+    <h1>Registered Candidates</h1>
+    
+    <div class="candidates-list">
+        <div class="candidate" style="font-weight: bold;">
+            <div style="width: 60px; margin-right: 15px;">Photo</div>
+            <div class="candidate-info">
+                <div>Roll</div>
+                <div>Name</div>
+                <div>Email</div>
+                <div>Phone</div>
+                <div>Stream</div>
+                <div>Event</div>
+            </div>
+        </div>
+        {% for row in rows %}
+            <div class="candidate">
+                <img src="{{ url_for('static', filename='uploads/' + row[6]) }}" alt="Profile Picture" class="profile-pic">
+                <div class="candidate-info">
+                    <div>{{ row[1] }}</div>
+                    <div>{{ row[2] }}</div>
+                    <div>{{ row[3] }}</div>
+                    <div>{{ row[4] }}</div>
+                    <div>{{ row[5] }}</div>
+                    <div>{{ row[6] }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
