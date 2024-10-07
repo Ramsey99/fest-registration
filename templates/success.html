@@ -1,146 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Successful</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <title>Success</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            background-color: #f7f7f7;
+            text-align: center;
+            padding: 50px;
+            font-family: Arial, sans-serif;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+            max-width: 400px;
+            width: 80%;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #555;
         }
 
         h1 {
-            color: #fff;
-            margin-bottom: 20px;
-            font-size: 2.5rem;
-        }
-
-        h1 span {
-            color: #ffd700;
+            color: #3498db;
+            margin-bottom: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         p {
-            color: #fff;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
+            color: #777777;
+            font-size: 18px;
+            margin-bottom: 25px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .btn {
-            background: #ffd700;
-            color: #333;
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 12px 25px;
             border: none;
-            padding: 12px 24px;
             border-radius: 5px;
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .btn:hover {
-            background: #ffec3c;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ffd700;
-            opacity: 0;
+            background-color: #2980b9;
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Registration <span>Successful</span></h1>
-        <p>Thank you for registering for our Grand Event Celebration!</p>
-        <p>We're excited to have you join us. You'll receive further details via email soon.</p>
-        <button class="btn" onclick="closePopup()">Back to Home</button>
-    </div>
 
     <script>
         function closePopup() {
-            window.location.href = "{{ url_for('index') }}";
+            document.getElementById("popup").style.display = "none";
+            // Redirect to index page or change URL based on the backend route
+            window.location.href = "{{ url_for('index') }}"; // Ensure 'index' route exists in your Flask app
         }
-
-        // Confetti animation
-        for (let i = 0; i < 50; i++) {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti');
-            document.body.appendChild(confetti);
-
-            gsap.set(confetti, {
-                x: Math.random() * window.innerWidth,
-                y: -20,
-                scale: Math.random() * 0.5 + 0.5,
-                rotation: Math.random() * 360
-            });
-
-            gsap.to(confetti, {
-                y: window.innerHeight + 20,
-                rotation: `+=${Math.random() * 720 - 360}`,
-                opacity: 1,
-                duration: Math.random() * 2 + 2,
-                delay: Math.random(),
-                ease: 'power1.out',
-                onComplete: () => confetti.remove()
-            });
-        }
-
-        // Container animation
-        gsap.from(".container", {
-            opacity: 0,
-            y: 50,
-            scale: 0.8,
-            duration: 1,
-            ease: "back.out(1.7)"
-        });
-
-        // Text animation
-        gsap.from("h1, p", {
-            opacity: 0,
-            y: 20,
-            stagger: 0.2,
-            duration: 0.8,
-            delay: 0.5,
-            ease: "power3.out"
-        });
-
-        // Button animation
-        gsap.from(".btn", {
-            opacity: 0,
-            y: 20,
-            duration: 0.8,
-            delay: 1,
-            ease: "power3.out"
-        });
     </script>
+</head>
+
+<body>
+    <div id="popup" class="popup">
+        <span class="close-icon" onclick="closePopup()">×</span>
+        <h1>Registration Successful</h1>
+        <p>Thank you for registering for our event!</p>
+        <div class="btn-container">
+            <button class="btn" onclick="closePopup()">Close</button>
+        </div>
+    </div>
 </body>
+
 </html>
