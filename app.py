@@ -20,7 +20,7 @@ db_config = {
     'host': os.environ.get('DB_HOST', 'localhost'),
     'database': os.environ.get('DB_NAME', 'event_database'),
     'user': os.environ.get('DB_USER', 'root'),
-    'password': os.environ.get('DB_PASSWORD', 'Varsha@1605!!')
+    'password': os.environ.get('DB_PASSWORD', 'anuradha') # write your own password
 }
 
 def create_connection():
