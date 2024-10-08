@@ -18,10 +18,10 @@
                 </ul>
             </div>
         </div>
-      
+
         <div class="content">
             <h1>Grand <span>Event</span> <br>Celebration</h1>
-            <form id="myform" action="/submit" method="post">
+            <form id="myform" action="/submit" method="post" enctype="multipart/form-data">
             
                 <div class="form">
                     <h2>Register Here</h2>
@@ -29,6 +29,11 @@
                     <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
                     <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
                     <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" required>
+
+                    <div class="form-group">
+                        <label for="profile">Upload Profile Picture</label>
+                        <input type="file" id="profile" name="profile" accept="image/*" required>
+                    </div>
 
                     <div class="select-box">
                         <select id="stream" name="stream" required>
