@@ -53,7 +53,7 @@ def submit():
 
         # Fetch file input correctly
         profile_pic = request.files.get('profile')  # Use get to avoid KeyError
-        
+
         # Check if file is uploaded
         if profile_pic:
             # Save the file
