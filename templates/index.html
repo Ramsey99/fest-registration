@@ -51,6 +51,8 @@
                         </select>
                     </div>
                     <button type="submit" class="btnn">Submit</button>
+                    <button type="button" id="saveProgress" class="btnn">Save Progress</button>
+                    <button type="button" id="loadProgress" class="btnn">Load Progress</button>
                 </div>
             </form>
         </div>
@@ -65,7 +67,7 @@
             errorElement.classList.add("error-text");
             errorElement.innerText = errorText;
             field.closest(".form").appendChild(errorElement);
-        }
+        };
 
         const handleFormData = (e) => {
             e.preventDefault();
@@ -112,8 +114,43 @@
             if (errorInputs.length > 0) return;
 
             form.submit();
-        }
+        };
 
+        // Save Progress Functionality
+        const saveButton = document.getElementById("saveProgress");
+        const loadButton = document.getElementById("loadProgress");
+
+        const saveProgress = () => {
+            const formData = {
+                roll: document.getElementById("roll").value,
+                fullname: document.getElementById("fullname").value,
+                email: document.getElementById("email").value,
+                phno: document.getElementById("phno").value,
+                stream: document.getElementById("stream").value,
+                event: document.getElementById("event").value,
+            };
+            localStorage.setItem("registrationData", JSON.stringify(formData));
+            alert("Progress saved successfully!");
+        };
+
+        const loadProgress = () => {
+            const savedData = localStorage.getItem("registrationData");
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                document.getElementById("roll").value = formData.roll || "";
+                document.getElementById("fullname").value = formData.fullname || "";
+                document.getElementById("email").value = formData.email || "";
+                document.getElementById("phno").value = formData.phno || "";
+                document.getElementById("stream").value = formData.stream || "";
+                document.getElementById("event").value = formData.event || "";
+                alert("Progress loaded successfully!");
+            } else {
+                alert("No saved progress found.");
+            }
+        };
+
+        saveButton.addEventListener("click", saveProgress);
+        loadButton.addEventListener("click", loadProgress);
         form.addEventListener("submit", handleFormData);
     </script>
 </body>
