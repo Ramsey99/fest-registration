@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,106 +7,104 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            text-align: center;
-            padding: 50px;
-        }
-
-        h1 {
-            color: #00a651;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table, th, td {
-            border: 1px solid #555;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f1f2f2;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:nth-child(odd) {
-            background-color: #ffffff;
-        }
-
-        .navbar {
-            background-color: #ffff;
-            overflow: hidden;
-        }
-
-        .navbar ul {
-            list-style-type: none;
+            line-height: 1.6;
             margin: 0;
-            padding: 0;
-            display: flex;
+            padding: 20px;
         }
-
-        .navbar li {
-            padding: 14px 16px;
+        .navbar {
+            text-align: center;
+            margin-bottom: 20px;
         }
-
-        .navbar li a {
-            color: blue;
+        .navbar a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
             text-decoration: none;
+            border-radius: 5px;
         }
-
-        .navbar li a:hover {
-            background-color: #ddd;
-            color: black;
+        .navbar a:hover {
+            background-color: #45a049;
+        }
+        h1 {
+            text-align: center;
+        }
+        .candidates-list {
+            max-width: 1200px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .candidate {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        .candidate-info {
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .candidate-info > div {
+            flex-basis: 16%;
+            padding: 0 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        @media (max-width: 768px) {
+            .candidate, .candidate-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .candidate-info > div {
+                flex-basis: 100%;
+                margin-bottom: 5px;
+            }
         }
     </style>
 </head>
-
 <body>
     <div class="navbar">
-        <div class="menu">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-            </ul>
-        </div>
+        <a href="/">Home</a>
     </div>
 
     <h1>Registered Candidates</h1>
-    <table>
-        <tr>
-            <th>Roll No</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Stream</th>
-            <th>Event</th>
-        </tr>
-        {% if rows %}
-            {% for row in rows %}
-            <tr>
-                <td>{{ row[0] }}</td>
-                <td>{{ row[1] }}</td>
-                <td>{{ row[2] }}</td>
-                <td>{{ row[3] }}</td>
-                <td>{{ row[4] }}</td>
-                <td>{{ row[5] }}</td>
-            </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="6">No registered candidates found.</td>
-            </tr>
-        {% endif %}
-    </table>
+    
+    <div class="candidates-list">
+        <div class="candidate" style="font-weight: bold;">
+            <div style="width: 60px; margin-right: 15px;">Photo</div>
+            <div class="candidate-info">
+                <div>Roll</div>
+                <div>Name</div>
+                <div>Email</div>
+                <div>Phone</div>
+                <div>Stream</div>
+                <div>Event</div>
+            </div>
+        </div>
+        {% for row in rows %}
+            <div class="candidate">
+                <img src="{{ url_for('static', filename='uploads/' + row[6]) }}" alt="Profile Picture" class="profile-pic">
+                <div class="candidate-info">
+                    <div>{{ row[1] }}</div>
+                    <div>{{ row[2] }}</div>
+                    <div>{{ row[3] }}</div>
+                    <div>{{ row[4] }}</div>
+                    <div>{{ row[5] }}</div>
+                    <div>{{ row[6] }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </body>
-
 </html>
