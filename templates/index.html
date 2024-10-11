@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
     <link rel="icon" href="\static\favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="\static\style.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> <!-- QR Code Library -->
     <link rel="StyleSheet" href="/static/style.css">
 </head>
 
@@ -61,11 +63,15 @@
                 </div>
                 
             </form>
+
+            <!-- QR Code Section -->
+            <div id="qrcode"></div> <!-- This is where the QR code will be displayed -->
         </div>
    
     </div>
     <script>
         const form = document.getElementById("myform");
+        const qrCodeDiv = document.getElementById("qrcode");
 
         const showError = (field, errorText) => {
             field.classList.add("error");
@@ -115,11 +121,18 @@
                 showError(eventInput, "Select an event");
             }
 
-            // If no errors, submit the form
+            // If no errors, generate QR code
             const errorInputs = document.querySelectorAll(".form .error");
             if (errorInputs.length > 0) return;
 
-            form.submit();
+            // QR Code data: Full name, Stream, and Event
+            const qrData = `Name: ${fullname}\nStream: ${stream}\nEvent: ${event}`;
+            
+            // Generate QR code
+            QRCode.toCanvas(qrCodeDiv, qrData, function (error) {
+                if (error) console.error(error);
+                console.log('QR Code generated!');
+            });
         }
 
         form.addEventListener("submit", handleFormData);
