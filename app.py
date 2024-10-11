@@ -47,6 +47,10 @@ def submit():
         stream = request.form['stream']
         event = request.form['event']
 
+        # Validate inputs
+        if not all([roll, fullname, email, phno, stream, event]):
+            return jsonify({"error": "All fields are required"}), 400
+
         connection = create_connection()
         if connection is None:
             raise Exception("Failed to connect to the database")
