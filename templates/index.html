@@ -7,6 +7,8 @@
     <title>Event Registration</title>
     <link rel="icon" href="\static\favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="\static\style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-qrcode/1.0/jquery.qrcode.min.js"></script>
 </head>
 
 <body>
@@ -55,6 +57,7 @@
                     <button type="button" id="loadProgress" class="btnn">Load Progress</button>
                 </div>
             </form>
+            <div id="qrCodeDiv"></div>
         </div>
     </div>
 
@@ -67,7 +70,7 @@
             errorElement.classList.add("error-text");
             errorElement.innerText = errorText;
             field.closest(".form").appendChild(errorElement);
-        };
+        }
 
         const handleFormData = (e) => {
             e.preventDefault();
@@ -113,8 +116,19 @@
             const errorInputs = document.querySelectorAll(".form .error");
             if (errorInputs.length > 0) return;
 
+            // QR Code data: Full name, Stream, and Event
+            const qrData = `Name: ${fullname}\nStream: ${stream}\nEvent: ${event}`;
+            
+            // Generate QR code
+            QRCode.toCanvas(document.getElementById("qrCodeDiv"), qrData, function (error) {
+                if (error) console.error(error);
+                console.log('QR Code generated!');
+            });
+
             form.submit();
-        };
+        }
+
+        form.addEventListener("submit", handleFormData);
 
         // Save Progress Functionality
         const saveButton = document.getElementById("saveProgress");
@@ -151,7 +165,6 @@
 
         saveButton.addEventListener("click", saveProgress);
         loadButton.addEventListener("click", loadProgress);
-        form.addEventListener("submit", handleFormData);
     </script>
 </body>
 
