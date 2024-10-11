@@ -50,6 +50,16 @@ def submit():
         # Validate inputs
         if not all([roll, fullname, email, phno, stream, event]):
             return jsonify({"error": "All fields are required"}), 400
+        
+        # Fetch file input correctly
+        profile_pic = request.files['profile']
+        
+        # Check if file is uploaded
+        if profile_pic:
+            # Save the file
+            filename = f"{roll}_{profile_pic.filename}"
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            profile_pic.save(filepath)
 
         connection = create_connection()
         if connection is None:
