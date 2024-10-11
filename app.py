@@ -50,9 +50,9 @@ def submit():
         # Validate inputs
         if not all([roll, fullname, email, phno, stream, event]):
             return jsonify({"error": "All fields are required"}), 400
-        
-        # Fetch file input correctly
-        profile_pic = request.files['profile']
+
+        # Fetch file input correctly (if applicable)
+        profile_pic = request.files.get('profile')  # Use get to avoid KeyError
         
         # Check if file is uploaded
         if profile_pic:
@@ -61,6 +61,7 @@ def submit():
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             profile_pic.save(filepath)
 
+        # Create a database connection
         connection = create_connection()
         if connection is None:
             raise Exception("Failed to connect to the database")
