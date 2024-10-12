@@ -3,7 +3,6 @@ import mysql.connector
 from mysql.connector import Error
 from flask_cors import CORS
 import os
-from web3 import Web3
 
 app = Flask(__name__)
 CORS(app)
@@ -16,7 +15,7 @@ db_config = {
     'password': os.environ.get('DB_PASSWORD', 'anuradha')
 }
 
-# Function to establish a MySQL connection (keep this from master branch)
+# Function to establish a MySQL connection
 def create_connection():
     try:
         connection = mysql.connector.connect(**db_config)
@@ -57,15 +56,9 @@ def submit():
         data = (roll, fullname, email, phno, stream, event)
         cursor.execute(add_registration_proc, data)
         connection.commit()
-
-        # Blockchain Interaction - Store data on blockchain
-        tx_hash = contract.functions.registerEvent(fullname, stream, event).transact({
-            'from': web3.eth.accounts[0],
-            'gas': 1000000
-        })
-
+        
         return redirect(url_for('success'))
-
+    
     except Error as e:
         print(f"Database error: {e}")
         return jsonify({"error": "Database error occurred."}), 500
