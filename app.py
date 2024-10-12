@@ -22,14 +22,14 @@ blockchain_url = os.environ.get('BLOCKCHAIN_URL', 'http://127.0.0.1:8545')  # Ch
 web3 = Web3(Web3.HTTPProvider(blockchain_url))
 
 # Smart contract ABI and address
-contract_address = os.environ.get('CONTRACT_ADDRESS', '0xYourContractAddress')
+contract_address = os.environ.get('CONTRACT_ADDRESS', '0xYourContractAddress')  # Replace with actual contract address
 contract_abi = [
     # Add your contract ABI here
 ]
 
 contract = web3.eth.contract(address=contract_address, abi=contract_abi)
 
-# Function to establish a MySQL connection
+# Function to establish a MySQL connection (keep this from master branch)
 def create_connection():
     try:
         connection = mysql.connector.connect(**db_config)
