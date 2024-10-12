@@ -22,7 +22,7 @@ blockchain_url = os.environ.get('BLOCKCHAIN_URL', '50f14625c30a4176ab2b19c01f420
 web3 = Web3(Web3.HTTPProvider(https://app.infura.io/))
 
 # Smart contract ABI and address
-contract_address = os.environ.get('CONTRACT_ADDRESS', '0xYourContractAddress')  # Replace with actual contract address
+contract_address = os.environ.get('CONTRACT_ADDRESS', 'contracts')  # Replace with actual contract address
 contract_abi = [
     # Add your contract ABI here
 ]
