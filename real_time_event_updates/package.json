@@ -1,0 +1,15 @@
+{
+    "name": "real-time-chat-updates",
+    "version": "1.0.0",
+    "description": "Real-time event updates and live chat feature",
+    "main": "server.js",
+    "dependencies": {
+      "ws": "^8.0.0"
+    },
+    "scripts": {
+      "start": "node server.js"
+    },
+    "author": "",
+    "license": "ISC"
+  }
+  
