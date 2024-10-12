@@ -18,8 +18,8 @@ db_config = {
 
 # Blockchain configuration
 # Assuming a local blockchain node or a testnet node
-blockchain_url = os.environ.get('BLOCKCHAIN_URL', 'http://127.0.0.1:8545')  # Change this to your Ethereum node URL
-web3 = Web3(Web3.HTTPProvider(blockchain_url))
+blockchain_url = os.environ.get('BLOCKCHAIN_URL', '50f14625c30a4176ab2b19c01f420681')  # Change this to your Ethereum node URL
+web3 = Web3(Web3.HTTPProvider(https://app.infura.io/))
 
 # Smart contract ABI and address
 contract_address = os.environ.get('CONTRACT_ADDRESS', '0xYourContractAddress')  # Replace with actual contract address
