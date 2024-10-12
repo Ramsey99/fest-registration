@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 from flask_cors import CORS
 import os
-from web3 import Web3
+from web3 import Web3  # Import Web3 for Ethereum integration
 
 app = Flask(__name__)
 CORS(app)
@@ -17,19 +17,18 @@ db_config = {
 }
 
 # Blockchain configuration
-# Assuming a local blockchain node or a testnet node
-blockchain_url = os.environ.get('BLOCKCHAIN_URL', '50f14625c30a4176ab2b19c01f420681')  # Change this to your Ethereum node URL
-web3 = Web3(Web3.HTTPProvider(https://app.infura.io/))
+blockchain_url = os.environ.get('BLOCKCHAIN_URL', 'http://127.0.0.1:8545')  # Change this to your Ethereum node URL
+web3 = Web3(Web3.HTTPProvider(blockchain_url))
 
 # Smart contract ABI and address
-contract_address = os.environ.get('CONTRACT_ADDRESS', 'https://github.com/muskan171105/fest-registration/tree/9b4032e324cc382e1d84725ba61bd276ed841f25/contracts')  # Replace with actual contract address
+contract_address = os.environ.get('CONTRACT_ADDRESS', '0xYourContractAddress')  # Replace with actual contract address
 contract_abi = [
     # Add your contract ABI here
 ]
 
 contract = web3.eth.contract(address=contract_address, abi=contract_abi)
 
-# Function to establish a MySQL connection (keep this from master branch)
+# Function to establish a MySQL connection
 def create_connection():
     try:
         connection = mysql.connector.connect(**db_config)
@@ -71,14 +70,11 @@ def submit():
         cursor.execute(add_registration_proc, data)
         connection.commit()
 
-        # Blockchain Interaction - Store data on blockchain
-        tx_hash = contract.functions.registerEvent(fullname, stream, event).transact({
-            'from': web3.eth.accounts[0],
-            'gas': 1000000
-        })
+        # Here, you can add your logic to interact with the blockchain
+        # For example: contract.functions.yourFunction().transact({...})
 
         return redirect(url_for('success'))
-
+    
     except Error as e:
         print(f"Database error: {e}")
         return jsonify({"error": "Database error occurred."}), 500
