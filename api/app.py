@@ -16,19 +16,6 @@ db_config = {
     'password': os.environ.get('DB_PASSWORD', 'anuradha')
 }
 
-# Blockchain configuration
-# Assuming a local blockchain node or a testnet node
-blockchain_url = os.environ.get('BLOCKCHAIN_URL', '50f14625c30a4176ab2b19c01f420681')  # Change this to your Ethereum node URL
-web3 = Web3(Web3.HTTPProvider(https://app.infura.io/))
-
-# Smart contract ABI and address
-contract_address = os.environ.get('CONTRACT_ADDRESS', 'https://github.com/muskan171105/fest-registration/tree/9b4032e324cc382e1d84725ba61bd276ed841f25/contracts')  # Replace with actual contract address
-contract_abi = [
-    # Add your contract ABI here
-]
-
-contract = web3.eth.contract(address=contract_address, abi=contract_abi)
-
 # Function to establish a MySQL connection (keep this from master branch)
 def create_connection():
     try:
