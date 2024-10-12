@@ -69,6 +69,19 @@
         .btn:hover {
             background-color: #2980b9;
         }
+
+        .qr-code {
+            margin-top: 20px;
+        }
+
+        .qr-code img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #ffffff;
+        }
+
     </style>
 
     <script>
@@ -89,6 +102,13 @@
         <h1>Registration Successful</h1>
         <p>Thank you for registering for {{ event_name }}!</p>
         <p>Your registration for {{ fullname }} has been received.</p>
+        <p>Thank you for registering for our event!</p>
+
+        <!-- QR Code Display -->
+        <div class="qr-code">
+            <p>Your QR code for event check-in:</p>
+            <img src="{{ qr_code_url }}" alt="QR Code">
+        </div>
         <div class="btn-container">
             <button class="btn" onclick="closePopup()">Close</button>
         </div>
