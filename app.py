@@ -3,6 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 from flask_cors import CORS
 import os
+from web3 import Web3
 
 app = Flask(__name__)
 CORS(app)
@@ -14,6 +15,19 @@ db_config = {
     'user': os.environ.get('DB_USER', 'root'),
     'password': os.environ.get('DB_PASSWORD', 'anuradha')
 }
+
+# Blockchain configuration
+# Assuming a local blockchain node or a testnet node
+blockchain_url = os.environ.get('BLOCKCHAIN_URL', 'http://127.0.0.1:8545')  # Change this to your Ethereum node URL
+web3 = Web3(Web3.HTTPProvider(blockchain_url))
+
+# Smart contract ABI and address
+contract_address = os.environ.get('CONTRACT_ADDRESS', '0xYourContractAddress')
+contract_abi = [
+    # Add your contract ABI here
+]
+
+contract = web3.eth.contract(address=contract_address, abi=contract_abi)
 
 # Function to establish a MySQL connection
 def create_connection():
@@ -56,9 +70,15 @@ def submit():
         data = (roll, fullname, email, phno, stream, event)
         cursor.execute(add_registration_proc, data)
         connection.commit()
-        
+
+        # Blockchain Interaction - Store data on blockchain
+        tx_hash = contract.functions.registerEvent(fullname, stream, event).transact({
+            'from': web3.eth.accounts[0],
+            'gas': 1000000
+        })
+
         return redirect(url_for('success'))
-    
+
     except Error as e:
         print(f"Database error: {e}")
         return jsonify({"error": "Database error occurred."}), 500
