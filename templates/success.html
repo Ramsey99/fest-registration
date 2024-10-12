@@ -77,14 +77,18 @@
             // Redirect to index page or change URL based on the backend route
             window.location.href = "{{ url_for('index') }}"; // Ensure 'index' route exists in your Flask app
         }
+
+        // Optional: Automatically close the popup after a few seconds (e.g., 5 seconds)
+        setTimeout(closePopup, 5000); // Close after 5 seconds
     </script>
 </head>
 
 <body>
     <div id="popup" class="popup">
-        <span class="close-icon" onclick="closePopup()">×</span>
+        <span class="close-icon" onclick="closePopup()" aria-label="Close Popup">×</span>
         <h1>Registration Successful</h1>
-        <p>Thank you for registering for our event!</p>
+        <p>Thank you for registering for {{ event_name }}!</p>
+        <p>Your registration for {{ fullname }} has been received.</p>
         <div class="btn-container">
             <button class="btn" onclick="closePopup()">Close</button>
         </div>
