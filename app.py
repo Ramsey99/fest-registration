@@ -3,6 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 from flask_cors import CORS
 import os
+from web3 import Web3  # Import Web3 for Ethereum integration
 
 app = Flask(__name__)
 CORS(app)
@@ -22,6 +23,20 @@ db_config = {
     'user': os.environ.get('DB_USER', 'root'),
     'password': os.environ.get('DB_PASSWORD', 'anuradha') # write your own password
 }
+
+# Blockchain configuration
+blockchain_url = os.environ.get('BLOCKCHAIN_URL', 'http://127.0.0.1:8545')  # Change this to your Ethereum node URL
+web3 = Web3(Web3.HTTPProvider(blockchain_url))
+
+# Smart contract ABI and address
+contract_address = os.environ.get('CONTRACT_ADDRESS', '0xYourContractAddress')  # Replace with actual contract address
+contract_abi = [
+    # Add your contract ABI here
+]
+
+contract = web3.eth.contract(address=contract_address, abi=contract_abi)
+
+# Function to establish a MySQL connection
 
 def create_connection():
     try:
@@ -75,7 +90,6 @@ def submit():
         data = (roll, fullname, email, phno, stream, event, filename)
         cursor.execute(add_registration_proc, data)
         connection.commit()
-
         return redirect(url_for('success'))
 
     except Error as e:
