@@ -68,8 +68,13 @@ def submit():
         phno = request.form['phno']
         stream = request.form['stream']
         event = request.form['event']
+
+        # Validate inputs
+        if not all([roll, fullname, email, phno, stream, event]):
+            return jsonify({"error": "All fields are required"}), 400
+
         # Fetch file input correctly
-        profile_pic = request.files['profile']
+        profile_pic = request.files.get('profile')  # Use get to avoid KeyError
         
         # Check if file is uploaded
         if profile_pic:

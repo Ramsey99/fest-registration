@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
-    <link rel="icon" href="\static\favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="\static\style.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/style.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> <!-- QR Code Library -->
-    <link rel="StyleSheet" href="/static/style.css">
 </head>
 
 <body>
@@ -24,7 +23,6 @@
         <div class="content">
             <h1>Grand <span>Event</span> <br>Celebration</h1>
             <form id="myform" action="/submit" method="post" enctype="multipart/form-data">
-            
                 <div class="form">
                     <h2>Register Here</h2>
                     <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
@@ -60,15 +58,16 @@
                         </select>
                     </div>
                     <button type="submit" class="btnn">Submit</button>
+                    <button type="button" id="saveProgress" class="btnn">Save Progress</button>
+                    <button type="button" id="loadProgress" class="btnn">Load Progress</button>
                 </div>
-                
             </form>
 
             <!-- QR Code Section -->
             <div id="qrcode"></div> <!-- This is where the QR code will be displayed -->
         </div>
-   
     </div>
+
     <script>
         const form = document.getElementById("myform");
         const qrCodeDiv = document.getElementById("qrcode");
@@ -127,7 +126,7 @@
 
             // QR Code data: Full name, Stream, and Event
             const qrData = `Name: ${fullname}\nStream: ${stream}\nEvent: ${event}`;
-            
+
             // Generate QR code
             QRCode.toCanvas(qrCodeDiv, qrData, function (error) {
                 if (error) console.error(error);
@@ -136,6 +135,42 @@
         }
 
         form.addEventListener("submit", handleFormData);
+
+        // Save Progress Functionality
+        const saveButton = document.getElementById("saveProgress");
+        const loadButton = document.getElementById("loadProgress");
+
+        const saveProgress = () => {
+            const formData = {
+                roll: document.getElementById("roll").value,
+                fullname: document.getElementById("fullname").value,
+                email: document.getElementById("email").value,
+                phno: document.getElementById("phno").value,
+                stream: document.getElementById("stream").value,
+                event: document.getElementById("event").value,
+            };
+            localStorage.setItem("registrationData", JSON.stringify(formData));
+            alert("Progress saved successfully!");
+        };
+
+        const loadProgress = () => {
+            const savedData = localStorage.getItem("registrationData");
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                document.getElementById("roll").value = formData.roll || "";
+                document.getElementById("fullname").value = formData.fullname || "";
+                document.getElementById("email").value = formData.email || "";
+                document.getElementById("phno").value = formData.phno || "";
+                document.getElementById("stream").value = formData.stream || "";
+                document.getElementById("event").value = formData.event || "";
+                alert("Progress loaded successfully!");
+            } else {
+                alert("No saved progress found.");
+            }
+        };
+
+        saveButton.addEventListener("click", saveProgress);
+        loadButton.addEventListener("click", loadProgress);
     </script>
 </body>
 
