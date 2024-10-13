@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
-    <link rel="icon" href="\static\favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="\static\style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-qrcode/1.0/jquery.qrcode.min.js"></script>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> <!-- QR Code Library -->
 </head>
 
 <body>
@@ -20,15 +19,21 @@
                 </ul>
             </div>
         </div>
+
         <div class="content">
             <h1>Grand <span>Event</span> <br>Celebration</h1>
-            <form id="myform" action="/submit" method="post">
+            <form id="myform" action="/submit" method="post" enctype="multipart/form-data">
                 <div class="form">
                     <h2>Register Here</h2>
                     <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
                     <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
                     <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
                     <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" required>
+
+                    <div class="form-group">
+                        <label for="profile">Upload Profile Picture</label>
+                        <input type="file" id="profile" name="profile" accept="image/*" required>
+                    </div>
 
                     <div class="select-box">
                         <select id="stream" name="stream" required>
@@ -57,12 +62,15 @@
                     <button type="button" id="loadProgress" class="btnn">Load Progress</button>
                 </div>
             </form>
-            <div id="qrCodeDiv"></div>
+
+            <!-- QR Code Section -->
+            <div id="qrcode"></div> <!-- This is where the QR code will be displayed -->
         </div>
     </div>
 
     <script>
         const form = document.getElementById("myform");
+        const qrCodeDiv = document.getElementById("qrcode");
 
         const showError = (field, errorText) => {
             field.classList.add("error");
@@ -112,20 +120,18 @@
                 showError(eventInput, "Select an event");
             }
 
-            // If no errors, submit the form
+            // If no errors, generate QR code
             const errorInputs = document.querySelectorAll(".form .error");
             if (errorInputs.length > 0) return;
 
             // QR Code data: Full name, Stream, and Event
             const qrData = `Name: ${fullname}\nStream: ${stream}\nEvent: ${event}`;
-            
+
             // Generate QR code
-            QRCode.toCanvas(document.getElementById("qrCodeDiv"), qrData, function (error) {
+            QRCode.toCanvas(qrCodeDiv, qrData, function (error) {
                 if (error) console.error(error);
                 console.log('QR Code generated!');
             });
-
-            form.submit();
         }
 
         form.addEventListener("submit", handleFormData);
