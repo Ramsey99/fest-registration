@@ -7,7 +7,7 @@
     <title>Event Registration</title>
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -141,7 +141,7 @@
             padding: 8px;
         }
 
-        /* Error message styling */
+       
         .error {
             border-color: red;
         }
@@ -154,7 +154,7 @@
             margin-bottom: 10px;
         }
 
-        /* Preview Image */
+
         #preview {
             margin-top: 10px;
             max-width: 150px;
@@ -164,7 +164,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Responsive Design */
+
         @media (max-width: 600px) {
             h1 {
                 font-size: 34px;
@@ -180,12 +180,11 @@
             }
         }
 
-        /* QR Code styling */
         #qrcode {
             margin-top: 25px;
         }
 
-        /* Smooth scrolling for buttons */
+ 
         button {
             transition: transform 0.2s ease;
         }
@@ -250,8 +249,8 @@
                 </div>
             </form>
 
-            <!-- QR Code Section -->
-            <div id="qrcode"></div> <!-- QR code will be displayed here -->
+           
+            <div id="qrcode"></div> 
         </div>
     </div>
 
@@ -259,7 +258,7 @@
         const form = document.getElementById("myform");
         const qrCodeDiv = document.getElementById("qrcode");
 
-        // Show error messages
+        
         const showError = (field, errorText) => {
             field.classList.add("error");
             const errorElement = document.createElement("small");
@@ -268,7 +267,7 @@
             field.closest(".form").appendChild(errorElement);
         }
 
-        // Handle form submission and validation
+        
         const handleFormData = (e) => {
             e.preventDefault();
 
@@ -285,7 +284,7 @@
             const event = eventInput.value;
 
             if (fullname && email && phno && stream && event) {
-                // Generate QR Code
+           
                 const qrCodeData = {
                     fullname,
                     email,
