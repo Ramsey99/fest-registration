@@ -7,7 +7,192 @@
     <title>Event Registration</title>
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> 
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #333;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .menu ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navbar .menu ul li {
+            margin: 0 20px;
+        }
+
+        .navbar .menu ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar .menu ul li a:hover {
+            background-color: #575757;
+            color: #fff;
+        }
+
+        .content {
+            text-align: center;
+            padding: 25px;
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        h1 span {
+            color: #007BFF;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            font-size: 30px;
+            color: #444;
+            font-weight: 600;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form input,
+        .select-box select,
+        .btnn {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form input:focus,
+        .select-box select:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+        }
+
+        .btnn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btnn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .form-group input[type="file"] {
+            padding: 8px;
+        }
+
+       
+        .error {
+            border-color: red;
+        }
+
+        .error-text {
+            color: red;
+            font-size: 12px;
+            text-align: left;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+
+
+        #preview {
+            margin-top: 10px;
+            max-width: 150px;
+            max-height: 150px;
+            display: none;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 34px;
+            }
+
+            .content {
+                padding: 20px;
+                width: 95%;
+            }
+
+            .navbar .menu ul li a {
+                font-size: 16px;
+            }
+        }
+
+        #qrcode {
+            margin-top: 25px;
+        }
+
+ 
+        button {
+            transition: transform 0.2s ease;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +206,7 @@
         </div>
 
         <div class="content">
-            <h1>Grand <span>Event</span> <br>Celebration</h1>
+            <h1>Grand <span>Event</span> <br> Celebration</h1>
             <form id="myform" action="/submit" method="post" enctype="multipart/form-data">
                 <div class="form">
                     <h2>Register Here</h2>
@@ -33,6 +218,7 @@
                     <div class="form-group">
                         <label for="profile">Upload Profile Picture</label>
                         <input type="file" id="profile" name="profile" accept="image/*" required>
+                        <img id="preview" alt="Image Preview">
                     </div>
 
                     <div class="select-box">
@@ -63,8 +249,8 @@
                 </div>
             </form>
 
-            <!-- QR Code Section -->
-            <div id="qrcode"></div> <!-- This is where the QR code will be displayed -->
+           
+            <div id="qrcode"></div> 
         </div>
     </div>
 
@@ -72,6 +258,7 @@
         const form = document.getElementById("myform");
         const qrCodeDiv = document.getElementById("qrcode");
 
+        
         const showError = (field, errorText) => {
             field.classList.add("error");
             const errorElement = document.createElement("small");
@@ -80,6 +267,7 @@
             field.closest(".form").appendChild(errorElement);
         }
 
+        
         const handleFormData = (e) => {
             e.preventDefault();
 
@@ -95,82 +283,29 @@
             const stream = streamInput.value;
             const event = eventInput.value;
 
-            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (fullname && email && phno && stream && event) {
+           
+                const qrCodeData = {
+                    fullname,
+                    email,
+                    phno,
+                    stream,
+                    event
+                };
 
-            // Clear existing errors
-            document.querySelectorAll(".form .error").forEach(field => field.classList.remove("error"));
-            document.querySelectorAll(".error-text").forEach(errorText => errorText.remove());
-
-            // Validation checks
-            if (fullname === "") {
-                showError(fullnameInput, "Enter your full name");
+                QRCode.toCanvas(qrCodeDiv, JSON.stringify(qrCodeData), (error) => {
+                    if (error) {
+                        console.error("Error generating QR code:", error);
+                    } else {
+                        console.log("QR code generated successfully");
+                    }
+                });
+            } else {
+                console.log("Form validation failed.");
             }
-            if (!emailPattern.test(email)) {
-                showError(emailInput, "Enter a valid email address");
-            }
-            if (phno === "") {
-                showError(phnoInput, "Enter your phone number");
-            } else if (phno.length != 10) {
-                showError(phnoInput, "Phone number should be 10 digits");
-            }
-            if (stream === "") {
-                showError(streamInput, "Select your stream");
-            }
-            if (event === "") {
-                showError(eventInput, "Select an event");
-            }
-
-            // If no errors, generate QR code
-            const errorInputs = document.querySelectorAll(".form .error");
-            if (errorInputs.length > 0) return;
-
-            // QR Code data: Full name, Stream, and Event
-            const qrData = `Name: ${fullname}\nStream: ${stream}\nEvent: ${event}`;
-
-            // Generate QR code
-            QRCode.toCanvas(qrCodeDiv, qrData, function (error) {
-                if (error) console.error(error);
-                console.log('QR Code generated!');
-            });
-        }
+        };
 
         form.addEventListener("submit", handleFormData);
-
-        // Save Progress Functionality
-        const saveButton = document.getElementById("saveProgress");
-        const loadButton = document.getElementById("loadProgress");
-
-        const saveProgress = () => {
-            const formData = {
-                roll: document.getElementById("roll").value,
-                fullname: document.getElementById("fullname").value,
-                email: document.getElementById("email").value,
-                phno: document.getElementById("phno").value,
-                stream: document.getElementById("stream").value,
-                event: document.getElementById("event").value,
-            };
-            localStorage.setItem("registrationData", JSON.stringify(formData));
-            alert("Progress saved successfully!");
-        };
-
-        const loadProgress = () => {
-            const savedData = localStorage.getItem("registrationData");
-            if (savedData) {
-                const formData = JSON.parse(savedData);
-                document.getElementById("roll").value = formData.roll || "";
-                document.getElementById("fullname").value = formData.fullname || "";
-                document.getElementById("email").value = formData.email || "";
-                document.getElementById("phno").value = formData.phno || "";
-                document.getElementById("stream").value = formData.stream || "";
-                document.getElementById("event").value = formData.event || "";
-                alert("Progress loaded successfully!");
-            } else {
-                alert("No saved progress found.");
-            }
-        };
-
-        saveButton.addEventListener("click", saveProgress);
-        loadButton.addEventListener("click", loadProgress);
     </script>
 </body>
 
