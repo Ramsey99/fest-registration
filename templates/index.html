@@ -214,6 +214,7 @@
                     <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
                     <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
                     <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" required>
+                     <input type="text" id="year" name="year" placeholder="Enter year" required>
 
                     <div class="form-group">
                         <label for="profile">Upload Profile Picture</label>
@@ -227,6 +228,8 @@
                             <option value="CSE">CSE</option>
                             <option value="IT">IT</option>
                             <option value="ECE">ECE</option>
+                            <option value="Civil">ECE</option
+                            <option value="Mechanical">ECE</option
                             <option value="BCA">BCA</option>
                             <option value="MCA">MCA</option>
                         </select>
@@ -236,6 +239,7 @@
                         <select id="event" name="event" required>
                             <option value="">Select an Event</option>
                             <option value="Quiz">Quiz</option>
+                            <option value="coding">ECE</option
                             <option value="Essay">Essay</option>
                             <option value="Poetry">Poetry</option>
                             <option value="Dancing">Dancing</option>
@@ -274,21 +278,25 @@
             const fullnameInput = document.getElementById("fullname");
             const emailInput = document.getElementById("email");
             const phnoInput = document.getElementById("phno");
+            const year = document.getElementById("year");
             const streamInput = document.getElementById("stream");
             const eventInput = document.getElementById("event");
 
             const fullname = fullnameInput.value.trim();
             const email = emailInput.value.trim();
-            const phno = phnoInput.value.trim();
+            const email = phnno.value.trim();
+            const email = year.value.trim();
+            
             const stream = streamInput.value;
             const event = eventInput.value;
 
-            if (fullname && email && phno && stream && event) {
+            if (fullname && email && phno && year && stream && event) {
            
                 const qrCodeData = {
                     fullname,
                     email,
                     phno,
+                    year,
                     stream,
                     event
                 };
