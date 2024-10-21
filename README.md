@@ -133,14 +133,29 @@ npm start
 7. **Open a Pull Request:**
     - Go to the GitHub page of your forked repository, and you should see an option to create a pull request. Click on it, provide a descriptive title and description for your pull request, and then submit it.
 
-<hr>
+<hr> 
+
+## Contributors 👀💖
+ 
+<div align="center">
+  <a href="https://github.com/Ramsey99/fest-registration/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=Ramsey99/fest-registration&max=100" />
+  </a>
+</div>
+
+--- 
+
 <div align="center">
 ⭐️ Support the Project
 If you find this project helpful, please consider giving it a star on GitHub! Your support helps to grow the project and reach more contributors.
 
 ### Show some ❤️ by starring this awesome repository!
 
-## License
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-</div>
+---
 
+## License 📁
+ 
+This project is licensed under the MIT License. See the [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) file fot more details. 
+</div>
+ 
+<h2 align="center"> Happy Coding 🚀👨‍💻</h2>
