@@ -14,6 +14,17 @@ contract EventRegistration {
     mapping(address => Participant) public participants;
     address[] public participantAddresses;
 
+    event ParticipantRegistered(
+        address indexed participantAddress,
+        string fullname,
+        string eventName
+    );
+    event ParticipantUpdated(
+        address indexed participantAddress,
+        string fullname,
+        string eventName
+    );
+
     function registerParticipant(
         string memory _fullname,
         string memory _stream,
@@ -22,7 +33,21 @@ contract EventRegistration {
         string memory _phno,
         string memory _roll
     ) public {
-        Participant memory newParticipant = Participant({
+        require(bytes(_fullname).length > 0, "Full name is required.");
+        require(bytes(_stream).length > 0, "Stream is required.");
+        require(bytes(_eventName).length > 0, "Event name is required.");
+        require(bytes(_email).length > 0, "Email is required.");
+        require(bytes(_phno).length > 0, "Phone number is required.");
+        require(bytes(_roll).length > 0, "Roll number is required.");
+        
+        if (bytes(participants[msg.sender].fullname).length == 0) {
+            participantAddresses.push(msg.sender);
+            emit ParticipantRegistered(msg.sender, _fullname, _eventName);
+        } else {
+            emit ParticipantUpdated(msg.sender, _fullname, _eventName);
+        }
+
+        participants[msg.sender] = Participant({
             fullname: _fullname,
             stream: _stream,
             eventName: _eventName,
@@ -30,8 +55,6 @@ contract EventRegistration {
             phno: _phno,
             roll: _roll
         });
-        participants[msg.sender] = newParticipant;
-        participantAddresses.push(msg.sender);
     }
 
     function getParticipant(address _addr)
