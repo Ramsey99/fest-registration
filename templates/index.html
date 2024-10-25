@@ -7,7 +7,7 @@
     <title>Event Registration</title>
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
 
         <div class="content">
             <h1>Grand <span>Event</span> <br>Celebration</h1>
-            <form id="myform" action="/submit" method="post" enctype="multipart/form-data">
+            <form id="myform" enctype="multipart/form-data">
                 <div class="form">
                     <h2>Register Here</h2>
                     <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
@@ -57,120 +57,52 @@
                             <option value="Debate">Debate</option>
                         </select>
                     </div>
-                    <button type="submit" class="btnn">Submit</button>
-                    <button type="button" id="saveProgress" class="btnn">Save Progress</button>
-                    <button type="button" id="loadProgress" class="btnn">Load Progress</button>
+                    <button type="submit" class="btnn" id="submitForm">Submit</button>
                 </div>
             </form>
-
-            <!-- QR Code Section -->
-            <div id="qrcode"></div> <!-- This is where the QR code will be displayed -->
         </div>
     </div>
 
     <script>
         const form = document.getElementById("myform");
-        const qrCodeDiv = document.getElementById("qrcode");
 
-        const showError = (field, errorText) => {
-            field.classList.add("error");
-            const errorElement = document.createElement("small");
-            errorElement.classList.add("error-text");
-            errorElement.innerText = errorText;
-            field.closest(".form").appendChild(errorElement);
-        }
-
-        const handleFormData = (e) => {
+        form.addEventListener("submit", function (e) {
             e.preventDefault();
 
-            const fullnameInput = document.getElementById("fullname");
-            const emailInput = document.getElementById("email");
-            const phnoInput = document.getElementById("phno");
-            const streamInput = document.getElementById("stream");
-            const eventInput = document.getElementById("event");
+          
+            const roll = document.getElementById("roll").value;
+            const fullname = document.getElementById("fullname").value;
+            const email = document.getElementById("email").value;
+            const phno = document.getElementById("phno").value;
+            const stream = document.getElementById("stream").value;
+            const event = document.getElementById("event").value;
+            const profileFile = document.getElementById("profile").files[0];
 
-            const fullname = fullnameInput.value.trim();
-            const email = emailInput.value.trim();
-            const phno = phnoInput.value.trim();
-            const stream = streamInput.value;
-            const event = eventInput.value;
+          
+            const reader = new FileReader();
+            reader.onload = function (eventPic) {
+                const profilePicBase64 = eventPic.target.result;
 
-            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+               
+                const qrData = `Roll: ${roll}\nName: ${fullname}\nStream: ${stream}\nEvent: ${event}`;
 
-            // Clear existing errors
-            document.querySelectorAll(".form .error").forEach(field => field.classList.remove("error"));
-            document.querySelectorAll(".error-text").forEach(errorText => errorText.remove());
+               
+                localStorage.setItem("registrationData", JSON.stringify({
+                    roll,
+                    fullname,
+                    email,
+                    phno,
+                    stream,
+                    event,
+                    qrData,
+                    profilePic: profilePicBase64
+                }));
 
-            // Validation checks
-            if (fullname === "") {
-                showError(fullnameInput, "Enter your full name");
-            }
-            if (!emailPattern.test(email)) {
-                showError(emailInput, "Enter a valid email address");
-            }
-            if (phno === "") {
-                showError(phnoInput, "Enter your phone number");
-            } else if (phno.length != 10) {
-                showError(phnoInput, "Phone number should be 10 digits");
-            }
-            if (stream === "") {
-                showError(streamInput, "Select your stream");
-            }
-            if (event === "") {
-                showError(eventInput, "Select an event");
-            }
-
-            // If no errors, generate QR code
-            const errorInputs = document.querySelectorAll(".form .error");
-            if (errorInputs.length > 0) return;
-
-            // QR Code data: Full name, Stream, and Event
-            const qrData = `Name: ${fullname}\nStream: ${stream}\nEvent: ${event}`;
-
-            // Generate QR code
-            QRCode.toCanvas(qrCodeDiv, qrData, function (error) {
-                if (error) console.error(error);
-                console.log('QR Code generated!');
-            });
-        }
-
-        form.addEventListener("submit", handleFormData);
-
-        // Save Progress Functionality
-        const saveButton = document.getElementById("saveProgress");
-        const loadButton = document.getElementById("loadProgress");
-
-        const saveProgress = () => {
-            const formData = {
-                roll: document.getElementById("roll").value,
-                fullname: document.getElementById("fullname").value,
-                email: document.getElementById("email").value,
-                phno: document.getElementById("phno").value,
-                stream: document.getElementById("stream").value,
-                event: document.getElementById("event").value,
+               
+                window.location.href = "success.html";
             };
-            localStorage.setItem("registrationData", JSON.stringify(formData));
-            alert("Progress saved successfully!");
-        };
-
-        const loadProgress = () => {
-            const savedData = localStorage.getItem("registrationData");
-            if (savedData) {
-                const formData = JSON.parse(savedData);
-                document.getElementById("roll").value = formData.roll || "";
-                document.getElementById("fullname").value = formData.fullname || "";
-                document.getElementById("email").value = formData.email || "";
-                document.getElementById("phno").value = formData.phno || "";
-                document.getElementById("stream").value = formData.stream || "";
-                document.getElementById("event").value = formData.event || "";
-                alert("Progress loaded successfully!");
-            } else {
-                alert("No saved progress found.");
-            }
-        };
-
-        saveButton.addEventListener("click", saveProgress);
-        loadButton.addEventListener("click", loadProgress);
+            reader.readAsDataURL(profileFile);
+        });
     </script>
 </body>
 

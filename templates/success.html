@@ -4,55 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Success</title>
+    <title>Registration Success</title>
     <style>
         body {
-            background-color: #f7f7f7;
-            text-align: center;
-            padding: 50px;
-            font-family: Arial, sans-serif;
+            background-color: #e8f0fe;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
         .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             background-color: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-            z-index: 9999;
-            max-width: 400px;
-            width: 80%;
-        }
-
-        .close-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 24px;
-            color: #555;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
         }
 
         h1 {
             color: #3498db;
-            margin-bottom: 15px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-bottom: 20px;
+            font-size: 28px;
         }
 
         p {
-            color: #777777;
+            color: #555;
             font-size: 18px;
-            margin-bottom: 25px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-bottom: 10px;
         }
 
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 20px auto;
+            border: 5px solid #ddd;
+            object-fit: cover;
         }
 
         .btn {
@@ -63,7 +55,7 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            margin-top: 20px;
         }
 
         .btn:hover {
@@ -71,48 +63,57 @@
         }
 
         .qr-code {
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
-        .qr-code img {
+        .qr-code canvas {
             max-width: 100%;
-            height: auto;
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
+            border-radius: 10px;
             padding: 10px;
             background-color: #ffffff;
         }
-
     </style>
-
-    <script>
-        function closePopup() {
-            document.getElementById("popup").style.display = "none";
-            // Redirect to index page or change URL based on the backend route
-            window.location.href = "{{ url_for('index') }}"; // Ensure 'index' route exists in your Flask app
-        }
-
-        // Optional: Automatically close the popup after a few seconds (e.g., 5 seconds)
-        setTimeout(closePopup, 5000); // Close after 5 seconds
-    </script>
 </head>
 
 <body>
-    <div id="popup" class="popup">
-        <span class="close-icon" onclick="closePopup()" aria-label="Close Popup">×</span>
-        <h1>Registration Successful</h1>
-        <p>Thank you for registering for {{ event_name }}!</p>
-        <p>Your registration for {{ fullname }} has been received.</p>
-        <p>Thank you for registering for our event!</p>
+    <div class="popup" id="popup">
+        <h1>Registration Successful!</h1>
 
-        <!-- QR Code Display -->
-        <div class="qr-code">
-            <p>Your QR code for event check-in:</p>
-            <img src="{{ qr_code_url }}" alt="QR Code">
-        </div>
-        <div class="btn-container">
-            <button class="btn" onclick="closePopup()">Close</button>
-        </div>
+       
+        <img id="profile-pic" class="profile-pic" src="" alt="Profile Picture">
+
+        <p id="fullname"></p>
+        <p id="email"></p>
+        <p id="phno"></p>
+        <p id="stream"></p>
+        <p id="event"></p> 
+        <div class="qr-code" id="qrcode"></div> 
+        <button class="btn" onclick="window.location.href='index.html'">Go to Home</button>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+        
+        const registrationData = JSON.parse(localStorage.getItem("registrationData"));
+
+        document.getElementById("fullname").textContent = "Name: " + registrationData.fullname;
+        document.getElementById("email").textContent = "Email: " + registrationData.email;
+        document.getElementById("phno").textContent = "Phone: " + registrationData.phno;
+        document.getElementById("stream").textContent = "Stream: " + registrationData.stream;
+        document.getElementById("event").textContent = "Event: " + registrationData.event; 
+      
+        const profilePic = document.getElementById("profile-pic");
+        profilePic.src = registrationData.profilePic || 'https://via.placeholder.com/120';
+
+        
+        const qrCodeDiv = document.getElementById("qrcode");
+        const qrData = `Name: ${registrationData.fullname}, Email: ${registrationData.email}, Phone: ${registrationData.phno}, Stream: ${registrationData.stream}, Event: ${registrationData.event}`;
+        QRCode.toCanvas(qrCodeDiv, qrData, function (error) {
+            if (error) console.error(error);
+            console.log('QR Code displayed!');
+        });
+    </script>
 </body>
 
 </html>
