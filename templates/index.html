@@ -6,193 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/static/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> 
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .main {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f9f9f9;
-            padding: 20px;
-        }
-
-        .navbar {
-            width: 100%;
-            background-color: #333;
-            padding: 15px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar .menu ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .navbar .menu ul li {
-            margin: 0 20px;
-        }
-
-        .navbar .menu ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .navbar .menu ul li a:hover {
-            background-color: #575757;
-            color: #fff;
-        }
-
-        .content {
-            text-align: center;
-            padding: 25px;
-            max-width: 600px;
-            margin: auto;
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease-in-out;
-        }
-
-        h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
-            font-weight: 700;
-            color: #333;
-            transition: color 0.3s ease;
-        }
-
-        h1 span {
-            color: #007BFF;
-        }
-
-        h2 {
-            margin-bottom: 25px;
-            font-size: 30px;
-            color: #444;
-            font-weight: 600;
-        }
-
-        .form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .form input,
-        .select-box select,
-        .btnn {
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .form input:focus,
-        .select-box select:focus {
-            border-color: #007BFF;
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
-        }
-
-        .btnn {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .btnn:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        .form-group {
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-
-        .form-group input[type="file"] {
-            padding: 8px;
-        }
-
-       
-        .error {
-            border-color: red;
-        }
-
-        .error-text {
-            color: red;
-            font-size: 12px;
-            text-align: left;
-            margin-top: -5px;
-            margin-bottom: 10px;
-        }
-
-
-        #preview {
-            margin-top: 10px;
-            max-width: 150px;
-            max-height: 150px;
-            display: none;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 34px;
-            }
-
-            .content {
-                padding: 20px;
-                width: 95%;
-            }
-
-            .navbar .menu ul li a {
-                font-size: 16px;
-            }
-        }
-
-        #qrcode {
-            margin-top: 25px;
-        }
-
- 
-        button {
-            transition: transform 0.2s ease;
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -206,8 +21,8 @@
         </div>
 
         <div class="content">
-            <h1>Grand <span>Event</span> <br> Celebration</h1>
-            <form id="myform" action="/submit" method="post" enctype="multipart/form-data">
+            <h1>Grand <span>Event</span> <br>Celebration</h1>
+            <form id="myform" enctype="multipart/form-data">
                 <div class="form">
                     <h2>Register Here</h2>
                     <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
@@ -218,7 +33,6 @@
                     <div class="form-group">
                         <label for="profile">Upload Profile Picture</label>
                         <input type="file" id="profile" name="profile" accept="image/*" required>
-                        <img id="preview" alt="Image Preview">
                     </div>
 
                     <div class="select-box">
@@ -243,70 +57,100 @@
                             <option value="Debate">Debate</option>
                         </select>
                     </div>
-                    <button type="submit" class="btnn">Submit</button>
-                    <button type="button" id="saveProgress" class="btnn">Save Progress</button>
-                    <button type="button" id="loadProgress" class="btnn">Load Progress</button>
+                    <button type="submit" class="btnn" id="submitForm">Submit</button>
+                    <button type="button" class="btnn" id="saveProgress">Save Progress</button>
+                    <button type="button" class="btnn" id="loadProgress">Load Progress</button>
                 </div>
             </form>
-
-           
-            <div id="qrcode"></div> 
         </div>
     </div>
 
     <script>
         const form = document.getElementById("myform");
-        const qrCodeDiv = document.getElementById("qrcode");
 
-        
-        const showError = (field, errorText) => {
-            field.classList.add("error");
-            const errorElement = document.createElement("small");
-            errorElement.classList.add("error-text");
-            errorElement.innerText = errorText;
-            field.closest(".form").appendChild(errorElement);
-        }
-
-        
-        const handleFormData = (e) => {
+        form.addEventListener("submit", function (e) {
             e.preventDefault();
 
-            const fullnameInput = document.getElementById("fullname");
-            const emailInput = document.getElementById("email");
-            const phnoInput = document.getElementById("phno");
-            const streamInput = document.getElementById("stream");
-            const eventInput = document.getElementById("event");
+            const roll = document.getElementById("roll").value;
+            const fullname = document.getElementById("fullname").value;
+            const email = document.getElementById("email").value;
+            const phno = document.getElementById("phno").value;
+            const stream = document.getElementById("stream").value;
+            const event = document.getElementById("event").value;
+            const profileFile = document.getElementById("profile").files[0];
 
-            const fullname = fullnameInput.value.trim();
-            const email = emailInput.value.trim();
-            const phno = phnoInput.value.trim();
-            const stream = streamInput.value;
-            const event = eventInput.value;
+            const reader = new FileReader();
+            reader.onload = function (eventPic) {
+                const profilePicBase64 = eventPic.target.result;
 
-            if (fullname && email && phno && stream && event) {
-           
-                const qrCodeData = {
+                const qrData = `Roll: ${roll}\nName: ${fullname}\nStream: ${stream}\nEvent: ${event}`;
+
+                localStorage.setItem("registrationData", JSON.stringify({
+                    roll,
                     fullname,
                     email,
                     phno,
                     stream,
-                    event
-                };
+                    event,
+                    qrData,
+                    profilePic: profilePicBase64
+                }));
 
-                QRCode.toCanvas(qrCodeDiv, JSON.stringify(qrCodeData), (error) => {
-                    if (error) {
-                        console.error("Error generating QR code:", error);
-                    } else {
-                        console.log("QR code generated successfully");
-                    }
-                });
+               
+                window.location.href = "success.html";
+            };
+            reader.readAsDataURL(profileFile);
+        });
+
+        document.getElementById("saveProgress").addEventListener("click", async function () {
+            const roll = document.getElementById("roll").value;
+            const fullname = document.getElementById("fullname").value;
+            const email = document.getElementById("email").value;
+            const phno = document.getElementById("phno").value;
+            const stream = document.getElementById("stream").value;
+            const event = document.getElementById("event").value;
+
+            const formData = {
+                roll,
+                fullname,
+                email,
+                phno,
+                stream,
+                event
+            };
+
+           
+            localStorage.setItem("savedFormData", JSON.stringify(formData));
+
+           
+            await fetch('/save_registration', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            alert("Progress Saved!");
+        });
+
+        document.getElementById("loadProgress").addEventListener("click", function () {
+            const savedData = JSON.parse(localStorage.getItem("savedFormData"));
+
+            if (savedData) {
+                document.getElementById("roll").value = savedData.roll;
+                document.getElementById("fullname").value = savedData.fullname;
+                document.getElementById("email").value = savedData.email;
+                document.getElementById("phno").value = savedData.phno;
+                document.getElementById("stream").value = savedData.stream;
+                document.getElementById("event").value = savedData.event;
+                alert("Progress Loaded!");
             } else {
-                console.log("Form validation failed.");
+                alert("No saved progress found.");
             }
-        };
-
-        form.addEventListener("submit", handleFormData);
+        });
     </script>
+
+   
+    
 </body>
 
 </html>
