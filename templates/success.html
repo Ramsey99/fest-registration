@@ -12,8 +12,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            height:auto;
+            margin-top: 50px;
+            margin-bottom: 50px;
         }
 
         .popup {
@@ -21,9 +22,13 @@
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
-            text-align: center;
+            text-align: left;
             max-width: 500px;
             width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
         }
 
         h1 {
@@ -63,38 +68,47 @@
         }
 
         .qr-code {
-            margin-top: 30px;
+            margin: 10px 0;
+            margin-left: 20px;
+            max-width: 200px;
+            margin-top: 100px;
         }
 
-        .qr-code canvas {
-            max-width: 100%;
+        .qr-code img {
+            max-width: 100px;
             border: 2px solid #ddd;
             border-radius: 10px;
             padding: 10px;
             background-color: #ffffff;
+        }
+
+        .content {
+            flex: 1;
         }
     </style>
 </head>
 
 <body>
     <div class="popup" id="popup">
-        <h1>Registration Successful!</h1>
-
-       
-        <img id="profile-pic" class="profile-pic" src="" alt="Profile Picture">
-
-        <p id="fullname"></p>
-        <p id="email"></p>
-        <p id="phno"></p>
-        <p id="stream"></p>
-        <p id="event"></p> 
-        <div class="qr-code" id="qrcode"></div> 
-        <button class="btn" onclick="window.location.href='index.html'">Go to Home</button>
+        <div class="content">
+            <h1>Registration Successful!</h1>
+            <img id="profile-pic" class="profile-pic" src="" alt="Profile Picture">
+            <p id="fullname"></p>
+            <p id="email"></p>
+            <p id="phno"></p>
+            <p id="stream"></p>
+            <p id="event"></p>
+            <button class="btn" onclick="window.location.href='index.html'">Go to Home</button>
+        </div>
+        
+        <!-- QR Code Image -->
+        <div class="qr-code">
+            <img id="qrImage" alt="QR Code">
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script>
-        
         const registrationData = JSON.parse(localStorage.getItem("registrationData"));
 
         document.getElementById("fullname").textContent = "Name: " + registrationData.fullname;
@@ -102,16 +116,16 @@
         document.getElementById("phno").textContent = "Phone: " + registrationData.phno;
         document.getElementById("stream").textContent = "Stream: " + registrationData.stream;
         document.getElementById("event").textContent = "Event: " + registrationData.event; 
-      
+
         const profilePic = document.getElementById("profile-pic");
         profilePic.src = registrationData.profilePic || 'https://via.placeholder.com/120';
 
-        
-        const qrCodeDiv = document.getElementById("qrcode");
+        // Generate the QR Code and set it as an image
         const qrData = `Name: ${registrationData.fullname}, Email: ${registrationData.email}, Phone: ${registrationData.phno}, Stream: ${registrationData.stream}, Event: ${registrationData.event}`;
-        QRCode.toCanvas(qrCodeDiv, qrData, function (error) {
-            if (error) console.error(error);
-            console.log('QR Code displayed!');
+        
+        QRCode.toDataURL(qrData, function (err, url) {
+            if (err) console.error(err);
+            document.getElementById('qrImage').src = url;
         });
     </script>
 </body>
