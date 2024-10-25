@@ -58,6 +58,8 @@
                         </select>
                     </div>
                     <button type="submit" class="btnn" id="submitForm">Submit</button>
+                    <button type="button" class="btnn" id="saveProgress">Save Progress</button>
+                    <button type="button" class="btnn" id="loadProgress">Load Progress</button>
                 </div>
             </form>
         </div>
@@ -69,7 +71,6 @@
         form.addEventListener("submit", function (e) {
             e.preventDefault();
 
-          
             const roll = document.getElementById("roll").value;
             const fullname = document.getElementById("fullname").value;
             const email = document.getElementById("email").value;
@@ -78,15 +79,12 @@
             const event = document.getElementById("event").value;
             const profileFile = document.getElementById("profile").files[0];
 
-          
             const reader = new FileReader();
             reader.onload = function (eventPic) {
                 const profilePicBase64 = eventPic.target.result;
 
-               
                 const qrData = `Roll: ${roll}\nName: ${fullname}\nStream: ${stream}\nEvent: ${event}`;
 
-               
                 localStorage.setItem("registrationData", JSON.stringify({
                     roll,
                     fullname,
@@ -103,7 +101,56 @@
             };
             reader.readAsDataURL(profileFile);
         });
+
+        document.getElementById("saveProgress").addEventListener("click", async function () {
+            const roll = document.getElementById("roll").value;
+            const fullname = document.getElementById("fullname").value;
+            const email = document.getElementById("email").value;
+            const phno = document.getElementById("phno").value;
+            const stream = document.getElementById("stream").value;
+            const event = document.getElementById("event").value;
+
+            const formData = {
+                roll,
+                fullname,
+                email,
+                phno,
+                stream,
+                event
+            };
+
+           
+            localStorage.setItem("savedFormData", JSON.stringify(formData));
+
+           
+            await fetch('/save_registration', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            alert("Progress Saved!");
+        });
+
+        document.getElementById("loadProgress").addEventListener("click", function () {
+            const savedData = JSON.parse(localStorage.getItem("savedFormData"));
+
+            if (savedData) {
+                document.getElementById("roll").value = savedData.roll;
+                document.getElementById("fullname").value = savedData.fullname;
+                document.getElementById("email").value = savedData.email;
+                document.getElementById("phno").value = savedData.phno;
+                document.getElementById("stream").value = savedData.stream;
+                document.getElementById("event").value = savedData.event;
+                alert("Progress Loaded!");
+            } else {
+                alert("No saved progress found.");
+            }
+        });
     </script>
+
+   
+    
 </body>
 
 </html>
