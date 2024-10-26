@@ -4,6 +4,7 @@ from mysql.connector import Error
 from flask_cors import CORS
 import os
 from web3 import Web3  # Import Web3 for Ethereum integration
+import logging
 
 app = Flask(__name__)
 CORS(app)
@@ -15,7 +16,42 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Max upload size: 16MB
 # Ensure the upload folder exists
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
+logging.basicConfig(
+    filename='bot.log',  # Log file name
+    level=logging.INFO,   # Log level
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+python
+async def convert_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if len(context.args) < 3:
+        await update.message.reply_text("Please use the format: /convert <crypto> <currency> <amount>")
+        return
+    
+    crypto = context.args[0].lower()
+    currency = context.args[1].lower()
+    amount = float(context.args[2])
+    
+    # Log the conversion request
+    logging.info(f"User {update.message.from_user.id} requested conversion: {amount} {crypto} to {currency}")
 
+    price = get_crypto_price(crypto, currency)
+    if price != 'Price not available':
+        converted_amount = price * amount
+        await update.message.reply_text(f"{amount} {crypto.capitalize()} is worth {converted_amount} {currency.upper()}.")
+    else:
+        await update.message.reply_text('Price not available.')
+async def show_crypto_details(update: Update, context: ContextTypes.DEFAULT_TYPE, crypto_id: str, currency: str) -> None:
+    await asyncio.sleep(1)  # Add a delay to avoid hitting rate limits
+    details = get_crypto_details(crypto_id, currency)
+    
+    # Log the price check request
+    logging.info(f"User {update.callback_query.from_user.id} checked price for {crypto_id} in {currency}")
+
+    if details:
+        price = details.get(currency, 'N/A')
+        # (rest of your code)
+async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logging.error(f"Update {update} caused error {context.error}")
 # MySQL database configuration
 db_config = {
     'host': os.environ.get('DB_HOST', 'localhost'),
