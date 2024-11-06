@@ -7,250 +7,190 @@
     <title>Event Registration</title>
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .main {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f9f9f9;
-            padding: 20px;
+            background-color: #e9ecef;
+            color: #495057;
         }
 
         .navbar {
             width: 100%;
-            background-color: #333;
-            padding: 15px 0;
+            background-color: #007BFF;
+            padding: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
-        .navbar .menu ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .navbar .menu ul li {
-            margin: 0 20px;
-        }
-
-        .navbar .menu ul li a {
+        .navbar a {
             color: #fff;
             text-decoration: none;
             font-size: 18px;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 10px 20px;
         }
 
-        .navbar .menu ul li a:hover {
-            background-color: #575757;
-            color: #fff;
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .content {
-            text-align: center;
-            padding: 25px;
-            max-width: 600px;
-            margin: auto;
             background-color: #fff;
             border-radius: 12px;
+            padding: 40px;
+            max-width: 500px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease-in-out;
+            text-align: center;
+            width: 100%;
         }
 
         h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
-            font-weight: 700;
-            color: #333;
-            transition: color 0.3s ease;
-        }
-
-        h1 span {
+            font-size: 36px;
             color: #007BFF;
-        }
-
-        h2 {
-            margin-bottom: 25px;
-            font-size: 30px;
-            color: #444;
-            font-weight: 600;
-        }
-
-        .form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .form input,
-        .select-box select,
-        .btnn {
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .form input:focus,
-        .select-box select:focus {
-            border-color: #007BFF;
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
-        }
-
-        .btnn {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .btnn:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        .form-group {
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-
-        .form-group input[type="file"] {
-            padding: 8px;
-        }
-
-       
-        .error {
-            border-color: red;
-        }
-
-        .error-text {
-            color: red;
-            font-size: 12px;
-            text-align: left;
-            margin-top: -5px;
             margin-bottom: 10px;
         }
 
+        h2 {
+            font-size: 24px;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="file"],
+        select,
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+        }
+
+        .btn {
+            background-color: #007BFF;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
 
         #preview {
             margin-top: 10px;
-            max-width: 150px;
-            max-height: 150px;
+            max-width: 100px;
+            max-height: 100px;
             display: none;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 34px;
-            }
-
-            .content {
-                padding: 20px;
-                width: 95%;
-            }
-
-            .navbar .menu ul li a {
-                font-size: 16px;
-            }
         }
 
         #qrcode {
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
- 
-        button {
-            transition: transform 0.2s ease;
+        .error-text {
+            color: #e74c3c;
+            font-size: 12px;
         }
 
-        button:active {
-            transform: scale(0.95);
+        @media (max-width: 600px) {
+            .content {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="main">
-        <div class="navbar">
-            <div class="menu">
-                <ul>
-                    <li><a href="see_details.html">See Details</a></li>
-                </ul>
-            </div>
-        </div>
+    <div class="navbar">
+        <a href="see_details.html">See Details</a>
+    </div>
 
+    <div class="container">
         <div class="content">
-            <h1>Grand <span>Event</span> <br> Celebration</h1>
+            <h1>Grand <span>Event</span></h1>
+            <h2>Register Here</h2>
             <form id="myform" action="/submit" method="post" enctype="multipart/form-data">
-                <div class="form">
-                    <h2>Register Here</h2>
+                <div class="form-group">
+                    <label for="roll">Class Roll</label>
                     <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
-                    <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
-                    <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
-                    <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" required>
-
-                    <div class="form-group">
-                        <label for="profile">Upload Profile Picture</label>
-                        <input type="file" id="profile" name="profile" accept="image/*" required>
-                        <img id="preview" alt="Image Preview">
-                    </div>
-
-                    <div class="select-box">
-                        <select id="stream" name="stream" required>
-                            <option value="">Select Stream</option>
-                            <option value="CSE">CSE</option>
-                            <option value="IT">IT</option>
-                            <option value="ECE">ECE</option>
-                            <option value="BCA">BCA</option>
-                            <option value="MCA">MCA</option>
-                        </select>
-                    </div>
-
-                    <div class="select-box">
-                        <select id="event" name="event" required>
-                            <option value="">Select an Event</option>
-                            <option value="Quiz">Quiz</option>
-                            <option value="Essay">Essay</option>
-                            <option value="Poetry">Poetry</option>
-                            <option value="Dancing">Dancing</option>
-                            <option value="Singing">Singing</option>
-                            <option value="Debate">Debate</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btnn">Submit</button>
-                    <button type="button" id="saveProgress" class="btnn">Save Progress</button>
-                    <button type="button" id="loadProgress" class="btnn">Load Progress</button>
                 </div>
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
+                </div>
+                <div class="form-group">
+                    <label for="phno">Phone Number</label>
+                    <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <label for="profile">Profile Picture</label>
+                    <input type="file" id="profile" name="profile" accept="image/*" required>
+                    <img id="preview" alt="Image Preview">
+                </div>
+                <div class="form-group">
+                    <label for="stream">Select Stream</label>
+                    <select id="stream" name="stream" required>
+                        <option value="">Choose Stream</option>
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="BCA">BCA</option>
+                        <option value="MCA">MCA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="event">Select Event</label>
+                    <select id="event" name="event" required>
+                        <option value="">Choose Event</option>
+                        <option value="Quiz">Quiz</option>
+                        <option value="Essay">Essay</option>
+                        <option value="Poetry">Poetry</option>
+                        <option value="Dancing">Dancing</option>
+                        <option value="Singing">Singing</option>
+                        <option value="Debate">Debate</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Submit</button>
             </form>
 
-           
-            <div id="qrcode"></div> 
+            <div id="qrcode"></div>
         </div>
     </div>
 
@@ -258,51 +198,25 @@
         const form = document.getElementById("myform");
         const qrCodeDiv = document.getElementById("qrcode");
 
-        
-        const showError = (field, errorText) => {
-            field.classList.add("error");
-            const errorElement = document.createElement("small");
-            errorElement.classList.add("error-text");
-            errorElement.innerText = errorText;
-            field.closest(".form").appendChild(errorElement);
-        }
-
-        
         const handleFormData = (e) => {
             e.preventDefault();
-
             const fullnameInput = document.getElementById("fullname");
             const emailInput = document.getElementById("email");
             const phnoInput = document.getElementById("phno");
             const streamInput = document.getElementById("stream");
             const eventInput = document.getElementById("event");
 
-            const fullname = fullnameInput.value.trim();
-            const email = emailInput.value.trim();
-            const phno = phnoInput.value.trim();
-            const stream = streamInput.value;
-            const event = eventInput.value;
+            const qrCodeData = {
+                fullname: fullnameInput.value.trim(),
+                email: emailInput.value.trim(),
+                phno: phnoInput.value.trim(),
+                stream: streamInput.value,
+                event: eventInput.value
+            };
 
-            if (fullname && email && phno && stream && event) {
-           
-                const qrCodeData = {
-                    fullname,
-                    email,
-                    phno,
-                    stream,
-                    event
-                };
-
-                QRCode.toCanvas(qrCodeDiv, JSON.stringify(qrCodeData), (error) => {
-                    if (error) {
-                        console.error("Error generating QR code:", error);
-                    } else {
-                        console.log("QR code generated successfully");
-                    }
-                });
-            } else {
-                console.log("Form validation failed.");
-            }
+            QRCode.toCanvas(qrCodeDiv, JSON.stringify(qrCodeData), (error) => {
+                if (error) console.error("Error generating QR code:", error);
+            });
         };
 
         form.addEventListener("submit", handleFormData);
