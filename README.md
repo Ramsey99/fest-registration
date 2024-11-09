@@ -31,6 +31,8 @@
 * [Installation](https://github.com/Ramsey99/fest-registration?tab=readme-ov-file#installation)
 * [Usage](https://github.com/Ramsey99/fest-registration?tab=readme-ov-file#usage)
 * [Contributing](https://github.com/Ramsey99/fest-registration?tab=readme-ov-file#contributing)
+* [Contributors](https://github.com/Ramsey99/fest-registration?tab=readme-ov-file#contributors)
+* [Creating Pull Request](https://github.com/Ramsey99/fest-registration?tab=readme-ov-file#creating-pull-request)
 * [License](https://github.com/Ramsey99/fest-registration?tab=readme-ov-file#license)
 
 ## Introduction
@@ -87,6 +89,33 @@ npm start
 
 ## Contributing
 - Contributions are welcome! If you have any suggestions or improvements, please open an issue or create a pull request.
+
+## Contributors
+<div align="center">
+    <a href="https://github.com/Ramsey99/fest-registration/graphs/contributors">
+        <img src="https://contrib.rocks/image?repo=Ramsey99/fest-registration" />
+    </a>
+</div>
+
+### Our Valuable Contributors
+
+<table>
+    <tr>
+        <td align="center">
+            <a href="https://github.com/Ramsey99/fest-registration/graphs/contributors">
+                <img src="https://img.shields.io/github/contributors/Ramsey99/fest-registration?color=blue" alt="Contributors"/>
+            </a>
+        </td>
+    </tr>
+</table>
+
+Thanks to all the contributors who have helped make this project better! 🙌
+
+<div align="center">
+    <a href="https://github.com/Ramsey99/fest-registration/blob/main/CONTRIBUTING.md">
+        <img src="https://img.shields.io/badge/Become_a_contributor-blue?style=for-the-badge" alt="Become a contributor"/>
+    </a>
+</div>
 
 ## Creating Pull Request
 1. **Fork the Project:**
