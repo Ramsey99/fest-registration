@@ -7,14 +7,12 @@ const eventUpdates = document.getElementById('event-updates');
 socket.addEventListener('message', function (event) {
   const data = JSON.parse(event.data);
 
-  // If the data is for event updates
   if (data.type === 'event-update') {
     const update = document.createElement('p');
     update.textContent = data.message;
     eventUpdates.appendChild(update);
   }
 
-  // If the data is a chat message
   if (data.type === 'chat-message') {
     const chatMessages = document.getElementById('chat-messages');
     const message = document.createElement('p');
@@ -31,6 +29,18 @@ sendButton.addEventListener('click', function () {
   const message = chatInput.value;
   if (message) {
     socket.send(JSON.stringify({ type: 'chat-message', message: message }));
-    chatInput.value = ''; // Clear input after sending
+    chatInput.value = '';
   }
+});
+
+// Theme Toggle Functionality
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  document.body.classList.toggle('light-mode');
+  
+  // Toggle icon between sun and moon
+  const icon = themeToggle.querySelector('i');
+  icon.classList.toggle('fa-sun');
+  icon.classList.toggle('fa-moon');
 });
