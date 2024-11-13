@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request, url_for, redirect, jsonify, send_file
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 import mysql.connector
 from mysql.connector import Error
 from flask_cors import CORS
 import os
-from web3 import Web3  # Import Web3 for Ethereum integration
+import uuid  # Import for unique filenames
+from web3 import Web3
+import logging  # Import logging for error handling
 
+# Initialize the app and CORS
 app = Flask(__name__)
 CORS(app)
 
@@ -13,45 +16,35 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Max upload size: 16MB
 
 # Ensure the upload folder exists
-if not os.path.exists(app.config['UPLOAD_FOLDER']):
-    os.makedirs(app.config['UPLOAD_FOLDER'])
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# MySQL database configuration
+# Database and Blockchain configuration from environment variables
 db_config = {
     'host': os.environ.get('DB_HOST', 'localhost'),
     'database': os.environ.get('DB_NAME', 'event_database'),
     'user': os.environ.get('DB_USER', 'root'),
-    'password': os.environ.get('DB_PASSWORD', 'anuradha') # write your own password
+    'password': os.environ.get('DB_PASSWORD')  # Recommend using a secure secrets manager
 }
 
-# Blockchain configuration
-blockchain_url = os.environ.get('BLOCKCHAIN_URL', 'http://127.0.0.1:8545')  # Change this to your Ethereum node URL
+blockchain_url = os.environ.get('BLOCKCHAIN_URL', 'http://127.0.0.1:8545')
 web3 = Web3(Web3.HTTPProvider(blockchain_url))
-
-# Smart contract ABI and address
-contract_address = os.environ.get('CONTRACT_ADDRESS', '0xYourContractAddress')  # Replace with actual contract address
-contract_abi = [
-    # Add your contract ABI here
-]
+contract_address = os.environ.get('CONTRACT_ADDRESS')
+contract_abi = [...]  # Contract ABI array
 
 contract = web3.eth.contract(address=contract_address, abi=contract_abi)
 
-# Function to establish a MySQL connection
+# Logging configuration
+logging.basicConfig(level=logging.INFO)
 
+# Function to establish a MySQL connection
 def create_connection():
     try:
         connection = mysql.connector.connect(**db_config)
         if connection.is_connected():
             return connection
     except Error as e:
-        print(f"Error: {e}")
-        return None
-
-def close_connection(connection, cursor=None):
-    if cursor:
-        cursor.close()
-    if connection:
-        connection.close()
+        logging.error(f"Database connection error: {e}")
+    return None
 
 # Route to serve the index.html page
 @app.route('/')
@@ -73,76 +66,61 @@ def submit():
         if not all([roll, fullname, email, phno, stream, event]):
             return jsonify({"error": "All fields are required"}), 400
 
-        # Fetch file input correctly
-        profile_pic = request.files.get('profile')  # Use get to avoid KeyError
-        
-        # Check if file is uploaded
+        # Handle file upload securely
+        profile_pic = request.files.get('profile')
+        filename = None
         if profile_pic:
-            # Save the file
-            filename = f"{roll}_{profile_pic.filename}"
+            filename = f"{uuid.uuid4()}_{profile_pic.filename}"
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             profile_pic.save(filepath)
 
         # Create a database connection
         connection = create_connection()
         if connection is None:
-            raise Exception("Failed to connect to the database")  # Handle connection failure
+            return jsonify({"error": "Database connection failed"}), 500
 
-        cursor = connection.cursor()
+        with connection.cursor() as cursor:
+            add_registration_proc = "CALL add_registration(%s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(add_registration_proc, (roll, fullname, email, phno, stream, event, filename))
+            connection.commit()
 
-        # Call stored procedure to add registration, including the image file name
-        add_registration_proc = "CALL add_registration(%s, %s, %s, %s, %s, %s, %s)"
-        data = (roll, fullname, email, phno, stream, event, filename)
-        cursor.execute(add_registration_proc, data)
-        connection.commit()
         return redirect(url_for('success'))
 
     except Error as e:
-        print(f"Database error: {e}")
+        logging.error(f"Database error: {e}")
         return jsonify({"error": "Database error occurred."}), 500
 
     except Exception as e:
-        print(f"General error: {e}")
+        logging.error(f"General error: {e}")
         return jsonify({"error": str(e)}), 500
-
-    finally:
-        if cursor:
-            cursor.close()  # Safely close the cursor if it was created
-        if connection:
-            connection.close()  # Safely close the connection if it was created
 
 @app.route('/see_details.html')
 def see_details():
     connection = create_connection()
-    cursor = None
     rows = []
     event_filter = request.args.get('event')
     search_query = request.args.get('search')
 
     if connection:
         try:
-            cursor = connection.cursor()
+            with connection.cursor() as cursor:
+                # Secure parameterized query
+                query = "SELECT * FROM registrations WHERE event = %s" if event_filter else "SELECT * FROM registrations"
+                params = [event_filter] if event_filter else []
 
-            # Basic query
-            select_query = "SELECT * FROM registrations WHERE 1=1"
+                if search_query:
+                    query += " AND fullname LIKE %s"
+                    params.append(f"%{search_query}%")
 
-            # Event filter
-            if event_filter:
-                select_query += f" AND event='{event_filter}'"
-
-            # Search filter
-            if search_query:
-                select_query += f" AND fullname LIKE '%{search_query}%'"
-
-            cursor.execute(select_query)
-            rows = cursor.fetchall()
+                cursor.execute(query, params)
+                rows = cursor.fetchall()
 
         except Error as e:
-            print(f"Error occurred while fetching details: {e}")
+            logging.error(f"Error fetching details: {e}")
             return jsonify({"error": "An error occurred while fetching details."}), 500
 
         finally:
-            close_connection(connection, cursor)
+            connection.close()
 
     return render_template('see_details.html', rows=rows)
 
