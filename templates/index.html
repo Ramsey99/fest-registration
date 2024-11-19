@@ -192,6 +192,53 @@
         button:active {
             transform: scale(0.95);
         }
+
+        #countdown-timer {
+            margin-top: 18%;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 15px;
+            background: #333;
+            color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 250px;
+            font-size: 1rem;
+            animation: fadeIn 1.5s;
+        }
+
+        #countdown-timer h1 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        #countdown-timer .timer-box {
+            display: inline-block;
+            width: 50px;
+            margin: 0 3px;
+        }
+
+        #countdown-timer .timer-box span {
+            font-size: 1.5em;
+            font-weight: bold;
+            display: block;
+        }
+
+        #countdown-timer .timer-label {
+            font-size: 0.75em;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -202,6 +249,29 @@
                 <ul>
                     <li><a href="see_details.html">See Details</a></li>
                 </ul>
+            </div>
+        </div>
+
+
+        <div id="timer-container">
+            <div id="countdown-timer">
+                <h1>Time Left to Register</h1>
+                <div class="timer-box">
+                    <span id="days">0</span>
+                    <div class="timer-label">Days</div>
+                </div>
+                <div class="timer-box">
+                    <span id="hours">0</span>
+                    <div class="timer-label">Hours</div>
+                </div>
+                <div class="timer-box">
+                    <span id="minutes">0</span>
+                    <div class="timer-label">Minutes</div>
+                </div>
+                <div class="timer-box">
+                    <span id="seconds">0</span>
+                    <div class="timer-label">Seconds</div>
+                </div>
             </div>
         </div>
 
@@ -307,6 +377,31 @@
 
         form.addEventListener("submit", handleFormData);
     </script>
+
+<script>
+    
+    const registrationCloseDate = new Date("2024-12-31T23:59:59").getTime();
+
+    const countdown = setInterval(function() {
+        const now = new Date().getTime();
+        const timeLeft = registrationCloseDate - now;
+
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerHTML = days;
+        document.getElementById("hours").innerHTML = hours;
+        document.getElementById("minutes").innerHTML = minutes;
+        document.getElementById("seconds").innerHTML = seconds;
+
+        if (timeLeft < 0) {
+            clearInterval(countdown);
+            document.getElementById("countdown-timer").innerHTML = "<h1>Registration Closed</h1>";
+        }
+    }, 1000);
+</script>
 </body>
 
 </html>
