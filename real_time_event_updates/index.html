@@ -4,10 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Real-Time Event Updates & Live Chat</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
 </head>
 <body>
-  <!-- Real-Time Updates Section -->
+  <!-- Dark/Light Mode Toggle Icon -->
+  <div id="theme-toggle" class="theme-icon">
+    <i class="fas fa-sun"></i> <!-- Default icon as sun for light mode -->
+  </div>
+
   <div class="event-updates-container">
     <h2>Real-Time Event Updates</h2>
     <div id="event-updates" class="updates">
@@ -15,7 +20,6 @@
     </div>
   </div>
 
-  <!-- Live Chat Support Section -->
   <div class="live-chat-container">
     <h2>Live Chat Support</h2>
     <div id="chat-window" class="chat-window">
@@ -25,6 +29,6 @@
     <button id="send-button">Send</button>
   </div>
 
-  <script src="app.js"></script> <!-- link to javascript-->
+  <script src="app.js"></script> <!-- link to JavaScript -->
 </body>
 </html>

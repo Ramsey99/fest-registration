@@ -1,63 +1,37 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-  }
-  
-  /* Event Updates Section */
-  .event-updates-container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .updates {
-    background-color: #f0f0f0;
-    padding: 15px;
-    height: 200px;
-    overflow-y: auto;
-  }
-  
-  h2 {
-    color: #333;
-  }
-  
-  /* Live Chat Section */
-  .live-chat-container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .chat-window {
-    background-color: #f0f0f0;
+/* General Styles */
+body.light-mode {
+  background-color: #f4f4f4;
+  color: #333;
+}
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #f4f4f4;
+}
+
+/* Theme Toggle Icon Styles */
+.theme-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333; /* Light mode default */
+}
+body.dark-mode .theme-icon {
+  color: #f4f4f4; /* Dark mode default */
+}
+
+.theme-icon:hover {
+  opacity: 0.8;
+}
+
+/* Responsive Design for Containers */
+@media (max-width: 768px) {
+  .event-updates-container, .live-chat-container {
     padding: 10px;
-    height: 200px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
   }
-  
+
   #chat-input {
-    width: 80%;
-    padding: 10px;
-    margin-right: 10px;
+    width: 70%;
   }
-  
-  #send-button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  #send-button:hover {
-    background-color: #0056b3;
-  }
-  
+}
