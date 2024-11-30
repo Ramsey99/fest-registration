@@ -1,8 +1,9 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #3c4265;
     margin: 0;
     padding: 20px;
+
   }
   
   /* Event Updates Section */
@@ -58,6 +59,6 @@ body {
   }
   
   #send-button:hover {
-    background-color: #0056b3;
+    background-color: #317fd3;
   }
   
