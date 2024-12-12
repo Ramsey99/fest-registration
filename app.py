@@ -55,8 +55,8 @@ def index():
 def submit():
     try:
         # Fetch form data
-        roll = request.form['roll']
-        fullname = request.form['fullname']
+        roll = request.form['roll'],
+        fullname = request.form['fullname'],
         email = request.form['email']
         phno = request.form['phno']
         stream = request.form['stream']
